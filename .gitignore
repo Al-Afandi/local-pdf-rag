@@ -1,0 +1,21 @@
+# Research PDFs and generated local index
+files/
+*.pdf
+rag_data/
+*.sqlite3
+
+# Temporary source backups
+*.before-ask.bak
+*.bak
+
+# Python and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+
+# Editor and OS files
+.vscode/
+.DS_Store
