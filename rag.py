@@ -32,9 +32,9 @@ EMBEDDING_DEVICE: str | None = None
 
 # Chunk sizes are measured in whitespace-separated words, not model tokens.
 # Shorter chunks are easier to attribute; longer chunks keep more context.
-CHUNK_TARGET_WORDS = 200
-CHUNK_MAX_WORDS = 220
-CHUNK_OVERLAP_WORDS = 40
+CHUNK_TARGET_WORDS = 100
+CHUNK_MAX_WORDS = 80
+CHUNK_OVERLAP_WORDS = 15
 
 # Number of chunks encoded in one batch. Lower this if memory is limited.
 EMBEDDING_BATCH_SIZE = 32
@@ -545,8 +545,9 @@ def _call_ollama(question: str, hits: list[SearchHit], model_name: str) -> str:
         "Do not use outside knowledge. If the excerpts do not provide enough "
         'evidence, say exactly: "I could not find enough evidence in the retrieved '
         'passages to answer that." '
-        "Cite factual claims using source labels such as [S1]. Use only labels "
-        "that were provided. If multiple excerpts are needed, cite each one. "
+        "Cite every factual claim using exactly this square-bracket format: "
+        "[S1]. Do not put source labels in parentheses. Use only labels that "
+        "were provided. If multiple excerpts are needed, cite each one. "
         "Keep the answer focused and do not claim that the full PDF lacks "
         "information when the retrieved excerpts are insufficient."
     )
@@ -631,6 +632,7 @@ def ask(
         f"using the top {len(hits)} retrieved chunks..."
     )
     answer = _call_ollama(question, hits, model_name)
+    answer = re.sub(r"(?<!\w)\((S\d+)\)", r"[\1]", answer)
     print(f"\n{answer}")
 
     citations = {int(value) for value in re.findall(r"(?<!\w)\[S(\d+)\]", answer)}
