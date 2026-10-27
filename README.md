@@ -29,6 +29,7 @@ python rag.py add .\2405.05672v1.pdf
 python rag.py list
 python rag.py search "How does the paper represent sign language gestures?"
 python rag.py search "keypoint streams" --top-k 8
+python rag.py search "Which datasets were used?" --document "5563_Uni_Sign_Toward_Unified_S.pdf"
 ```
 
 The database is created at `rag_data/rag.sqlite3`. It contains document
@@ -75,13 +76,16 @@ installed model with the --model option.
 
     python rag.py ask "Which datasets were used for evaluation?"
     python rag.py ask "Which datasets were used for evaluation?" --top-k 10
-    python rag.py ask "Which datasets were used for evaluation?" --model another-model
+    python rag.py ask "Which datasets were used for evaluation?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --model qwen3:8b
 
 The ask command uses the same dense retrieval as search, then sends only the
 retrieved chunks to Ollama through its local chat API. The prompt asks the
 model to rely on those excerpts, cite claims with labels such as [S1], and say when the
 retrieved evidence is insufficient. A source list maps each citation label to
-the PDF file, page, section, and chunk ID. An answer can still be missed if the
+the PDF file, page, section, and chunk ID. If only one PDF is indexed, ask uses
+it automatically. If several PDFs are indexed, specify one with --document;
+this prevents the answer from combining different papers. Search still searches
+all PDFs unless --document is supplied. An answer can still be missed if the
 retriever does not return the needed passage; ask does not yet add keyword or
 iterative retrieval.
 

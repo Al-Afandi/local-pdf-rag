@@ -431,7 +431,23 @@ def list_documents() -> None:
         )
 
 
-def retrieve_chunks(query: str, top_k: int = DEFAULT_TOP_K) -> list[SearchHit]:
+def indexed_document_names() -> list[str]:
+    """Return the distinct PDF names currently present in the index."""
+    connection = _connect()
+    try:
+        rows = connection.execute(
+            "SELECT DISTINCT file_name FROM documents ORDER BY file_name"
+        ).fetchall()
+    finally:
+        connection.close()
+    return [row["file_name"] for row in rows]
+
+
+def retrieve_chunks(
+    query: str,
+    top_k: int = DEFAULT_TOP_K,
+    document_name: str | None = None,
+) -> list[SearchHit]:
     """Retrieve ranked chunks for either search display or answer generation."""
     if not query.strip():
         raise ValueError("Enter a non-empty search query.")
@@ -440,15 +456,25 @@ def retrieve_chunks(query: str, top_k: int = DEFAULT_TOP_K) -> list[SearchHit]:
 
     connection = _connect()
     try:
-        rows = connection.execute(
+        sql = (
             "SELECT chunks.chunk_id, documents.file_name, chunks.page_number, "
             "chunks.section, chunks.text, chunks.embedding, documents.embedding_model "
             "FROM chunks JOIN documents USING (document_id)"
-        ).fetchall()
+        )
+        parameters: tuple[str, ...] = ()
+        if document_name is not None:
+            sql += " WHERE documents.file_name = ?"
+            parameters = (document_name,)
+        rows = connection.execute(sql, parameters).fetchall()
     finally:
         connection.close()
 
     if not rows:
+        if document_name is not None:
+            raise ValueError(
+                f"No indexed chunks found for PDF {document_name!r}. "
+                "Run the list command to see indexed PDF names."
+            )
         return []
 
     stored_models = {row["embedding_model"] for row in rows}
@@ -483,8 +509,12 @@ def retrieve_chunks(query: str, top_k: int = DEFAULT_TOP_K) -> list[SearchHit]:
     ]
 
 
-def search(query: str, top_k: int = DEFAULT_TOP_K) -> None:
-    hits = retrieve_chunks(query, top_k)
+def search(
+    query: str,
+    top_k: int = DEFAULT_TOP_K,
+    document_name: str | None = None,
+) -> None:
+    hits = retrieve_chunks(query, top_k, document_name)
     if not hits:
         print("No chunks are indexed yet. Add a PDF first.")
         return
@@ -570,13 +600,36 @@ def ask(
     question: str,
     top_k: int = DEFAULT_TOP_K,
     model_name: str = OLLAMA_MODEL,
+    document_name: str | None = None,
 ) -> None:
-    hits = retrieve_chunks(question, top_k)
-    if not hits:
+    available_documents = indexed_document_names()
+    if not available_documents:
         print("No chunks are indexed yet. Add a PDF first.")
         return
 
-    print(f"Answering with {model_name} using the top {len(hits)} retrieved chunks...")
+    if document_name is None:
+        if len(available_documents) > 1:
+            choices = ", ".join(available_documents)
+            raise ValueError(
+                "More than one PDF is indexed. Choose one with --document. "
+                f"Indexed PDFs: {choices}"
+            )
+        document_name = available_documents[0]
+    elif document_name not in available_documents:
+        choices = ", ".join(available_documents)
+        raise ValueError(
+            f"PDF {document_name!r} is not indexed. Indexed PDFs: {choices}"
+        )
+
+    hits = retrieve_chunks(question, top_k, document_name)
+    if not hits:
+        print("No chunks are indexed for that PDF.")
+        return
+
+    print(
+        f"Answering from {document_name} with {model_name}, "
+        f"using the top {len(hits)} retrieved chunks..."
+    )
     answer = _call_ollama(question, hits, model_name)
     print(f"\n{answer}")
 
@@ -628,6 +681,10 @@ def build_parser() -> argparse.ArgumentParser:
         default=DEFAULT_TOP_K,
         help=f"number of chunks to show (default: {DEFAULT_TOP_K})",
     )
+    search_parser.add_argument(
+        "--document",
+        help="restrict search to this exact indexed PDF filename",
+    )
 
     ask_parser = commands.add_parser(
         "ask", help="answer from retrieved PDF excerpts with local Ollama"
@@ -644,6 +701,13 @@ def build_parser() -> argparse.ArgumentParser:
         default=OLLAMA_MODEL,
         help=f"Ollama model to use (default: {OLLAMA_MODEL})",
     )
+    ask_parser.add_argument(
+        "--document",
+        help=(
+            "answer from this exact indexed PDF filename; required when "
+            "multiple PDFs are indexed"
+        ),
+    )
     return parser
 
 
@@ -658,9 +722,9 @@ def main() -> int:
         elif args.command == "list":
             list_documents()
         elif args.command == "search":
-            search(args.query, args.top_k)
+            search(args.query, args.top_k, args.document)
         elif args.command == "ask":
-            ask(args.question, args.top_k, args.model)
+            ask(args.question, args.top_k, args.model, args.document)
     except (OSError, RuntimeError, ValueError, sqlite3.Error) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1
