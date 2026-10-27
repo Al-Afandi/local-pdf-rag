@@ -644,12 +644,16 @@ def ask(
     elif not citations and "could not find enough evidence" not in answer.casefold():
         print("\nWarning: the answer did not include a source citation.")
 
+    cited_hits = [hit for hit in hits if hit.rank in citations]
     print("\nSources:")
-    for hit in hits:
-        print(
-            f"  [S{hit.rank}] {hit.file_name} | PDF page {hit.page_number} | "
-            f"{hit.section} | chunk_id={hit.chunk_id}"
-        )
+    if not cited_hits:
+        print("  No retrieved sources were cited.")
+    else:
+        for hit in cited_hits:
+            print(
+                f"  [S{hit.rank}] {hit.file_name} | PDF page {hit.page_number} | "
+                f"{hit.section} | chunk_id={hit.chunk_id}"
+            )
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
