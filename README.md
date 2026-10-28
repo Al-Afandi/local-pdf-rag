@@ -47,8 +47,8 @@ settings**:
 | --- | --- | --- |
 | `EMBEDDING_MODEL` | `sentence-transformers/all-MiniLM-L6-v2` | Model used for both PDF chunks and search queries. If you change it after adding PDFs, re-add those PDFs so every stored vector uses the same model. |
 | `EMBEDDING_DEVICE` | `None` | `None` lets the library choose; use `"cpu"` to force CPU or `"cuda"` for a configured CUDA environment. |
-| `CHUNK_TARGET_WORDS` | `100` | Soft target size. Smaller chunks are more specific; larger chunks carry more context. |
-| `CHUNK_MAX_WORDS` | `80` | Upper limit for a paragraph or split sentence piece. A long paragraph is split at sentence boundaries where possible. |
+| `CHUNK_TARGET_WORDS` | `80` | Soft target size. Smaller chunks are more specific; larger chunks carry more context. |
+| `CHUNK_MAX_WORDS` | `100` | Upper limit for a paragraph or split sentence piece. A long paragraph is split at sentence boundaries where possible. |
 | `CHUNK_OVERLAP_WORDS` | `15` | Words copied from the previous chunk to preserve context across a boundary. Set to `0` for no overlap. |
 | `EMBEDDING_BATCH_SIZE` | `32` | Number of chunks encoded together. Lower it if embedding runs out of memory. |
 | `DEFAULT_TOP_K` | `6` | Number of results shown when `--top-k` is omitted. |

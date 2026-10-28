@@ -34,8 +34,8 @@ EMBEDDING_DEVICE: str | None = None
 
 # Chunk sizes are measured in whitespace-separated words, not model tokens.
 # Shorter chunks are easier to attribute; longer chunks keep more context.
-CHUNK_TARGET_WORDS = 100
-CHUNK_MAX_WORDS = 80
+CHUNK_TARGET_WORDS = 80
+CHUNK_MAX_WORDS = 100
 CHUNK_OVERLAP_WORDS = 15
 
 # Number of chunks encoded in one batch. Lower this if memory is limited.
