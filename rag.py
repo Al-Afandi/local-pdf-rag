@@ -53,6 +53,12 @@ HYBRID_MIN_CANDIDATES = 30
 HYBRID_CANDIDATE_MULTIPLIER = 5
 RRF_RANK_CONSTANT = 60
 
+# Optional CrossEncoder re-ranks a small candidate pool; first use downloads it.
+RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L6-v2"
+RERANK_CANDIDATES = 30
+RERANK_BATCH_SIZE = 16
+RERANK_MAX_LENGTH = 512
+
 # Ollama runs locally and must already have the selected model available.
 OLLAMA_BASE_URL = "http://localhost:11434"
 OLLAMA_MODEL = "llama4:maverick"  # Model currently installed on the lab4 workstation.
@@ -611,18 +617,82 @@ def retrieve_hybrid_chunks(
     ]
 
 
+
+def rerank_candidates(
+    query: str,
+    candidates: list[SearchHit],
+    top_k: int,
+) -> list[SearchHit]:
+    """Score query-passage pairs with a local CrossEncoder and return the best hits."""
+    if not candidates:
+        return []
+    try:
+        from sentence_transformers import CrossEncoder
+    except ImportError as exc:
+        raise RuntimeError(
+            "CrossEncoder requires sentence-transformers. Install project requirements."
+        ) from exc
+
+    model_options: dict[str, object] = {"max_length": RERANK_MAX_LENGTH}
+    if EMBEDDING_DEVICE is not None:
+        model_options["device"] = EMBEDDING_DEVICE
+    model = CrossEncoder(RERANKER_MODEL, **model_options)
+    pairs = [
+        (query, f"Section: {hit.section}\n{hit.text}")
+        for hit in candidates
+    ]
+    scores = model.predict(
+        pairs,
+        batch_size=RERANK_BATCH_SIZE,
+        show_progress_bar=False,
+    )
+    ranked_indices = sorted(
+        range(len(candidates)),
+        key=lambda index: float(scores[index]),
+        reverse=True,
+    )[:top_k]
+    return [
+        SearchHit(
+            rank=rank,
+            score=float(scores[index]),
+            chunk_id=candidates[index].chunk_id,
+            file_name=candidates[index].file_name,
+            page_number=candidates[index].page_number,
+            section=candidates[index].section,
+            text=candidates[index].text,
+        )
+        for rank, index in enumerate(ranked_indices, start=1)
+    ]
+
+
 def retrieve_by_mode(
     query: str,
     top_k: int = DEFAULT_TOP_K,
     document_name: str | None = None,
     retrieval_mode: str = "dense",
 ) -> list[SearchHit]:
-    """Select the baseline dense retriever or optional hybrid retriever."""
+    """Select dense, hybrid, or CrossEncoder-reranked retrieval."""
+    if not query.strip():
+        raise ValueError("Enter a non-empty search query.")
+    if top_k < 1:
+        raise ValueError("--top-k must be at least 1.")
+
     if retrieval_mode == "dense":
         return retrieve_chunks(query, top_k, document_name)
     if retrieval_mode == "hybrid":
         return retrieve_hybrid_chunks(query, top_k, document_name)
-    raise ValueError("--retrieval-mode must be 'dense' or 'hybrid'.")
+    if retrieval_mode in {"rerank", "hybrid-rerank"}:
+        candidate_count = max(RERANK_CANDIDATES, top_k)
+        if retrieval_mode == "rerank":
+            candidates = retrieve_chunks(query, candidate_count, document_name)
+        else:
+            candidates = retrieve_hybrid_chunks(
+                query, candidate_count, document_name
+            )
+        return rerank_candidates(query, candidates, top_k)
+    raise ValueError(
+        "--retrieval-mode must be dense, hybrid, rerank, or hybrid-rerank."
+    )
 
 
 def search(
@@ -636,9 +706,13 @@ def search(
         print("No chunks are indexed yet. Add a PDF first.")
         return
 
-    score_description = (
-        "cosine similarity" if retrieval_mode == "dense" else "reciprocal-rank fusion"
-    )
+    score_descriptions = {
+        "dense": "cosine similarity",
+        "hybrid": "reciprocal-rank fusion",
+        "rerank": "CrossEncoder relevance",
+        "hybrid-rerank": "CrossEncoder relevance",
+    }
+    score_description = score_descriptions[retrieval_mode]
     print(f"Retrieval mode: {retrieval_mode} | score: {score_description}")
     for hit in hits:
         print(
@@ -815,9 +889,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     search_parser.add_argument(
         "--retrieval-mode",
-        choices=("dense", "hybrid"),
+        choices=("dense", "hybrid", "rerank", "hybrid-rerank"),
         default="dense",
-        help="dense cosine search or hybrid dense plus BM25 search (default: dense)",
+        help="dense, hybrid, dense rerank, or hybrid rerank (default: dense)",
     )
 
     ask_parser = commands.add_parser(
@@ -844,9 +918,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     ask_parser.add_argument(
         "--retrieval-mode",
-        choices=("dense", "hybrid"),
+        choices=("dense", "hybrid", "rerank", "hybrid-rerank"),
         default="dense",
-        help="dense cosine search or hybrid dense plus BM25 search (default: dense)",
+        help="dense, hybrid, dense rerank, or hybrid rerank (default: dense)",
     )
     return parser
 

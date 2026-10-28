@@ -31,6 +31,8 @@ python rag.py search "How does the paper represent sign language gestures?"
 python rag.py search "keypoint streams" --top-k 6
 python rag.py search "Which datasets were used?" --document "5563_Uni_Sign_Toward_Unified_S.pdf"
 python rag.py search "Which datasets were used?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --retrieval-mode hybrid
+python rag.py search "Which datasets were used?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --retrieval-mode rerank
+python rag.py search "Which datasets were used?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --retrieval-mode hybrid-rerank
 ```
 
 The database is created at `rag_data/rag.sqlite3`. It contains document
@@ -79,6 +81,7 @@ installed model with the --model option.
     python rag.py ask "Which datasets were used for evaluation?" --top-k 6
     python rag.py ask "Which datasets were used for evaluation?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --model qwen3:8b
     python rag.py ask "Which datasets were used for evaluation?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --retrieval-mode hybrid
+    python rag.py ask "Which datasets were used for evaluation?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --retrieval-mode hybrid-rerank
 
 The ask command uses the selected retrieval mode, then sends only the retrieved
 chunks to Ollama through its local chat API. Dense cosine retrieval remains the
@@ -100,6 +103,13 @@ considers up to max(30, top-k times 5) candidates from each ranking. The
 candidate count and reciprocal-rank constant are adjustable near the top of
 rag.py.
 
+Rerank mode first selects 30 dense candidates; hybrid-rerank selects candidates
+with hybrid retrieval. Both then score the question and each passage together
+with a local CrossEncoder and return the top-k results. The reranker model is
+downloaded on first use and cached locally; dense and hybrid modes do not load
+it. RERANK_CANDIDATES, RERANK_BATCH_SIZE, and RERANK_MAX_LENGTH are adjustable
+near the top of rag.py. Reranking does not require re-indexing the PDFs.
+
 ## What this version deliberately supports
 
 - Text-based PDFs that contain selectable text. OCR for scanned PDFs is not
@@ -107,8 +117,8 @@ rag.py.
 - Page-aware, section-aware chunks and result citations using PDF page numbers.
 - Local dense embeddings and exact cosine similarity. The exact search scans
   every stored vector, which is simple and suitable for a small learning corpus.
-- Optional local BM25 keyword retrieval fused with dense rankings. Dense-only
-  remains the default so both modes can be compared against the same benchmark.
+- Optional local BM25 keyword retrieval and CrossEncoder reranking. Dense-only
+  remains the default so each retrieval mode can be compared against the benchmark.
 - A basic column-order heuristic based on text-block positions. Complex tables,
   sidebars, and multi-column layouts still deserve visual inspection.
 
