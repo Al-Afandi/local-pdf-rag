@@ -5,12 +5,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import re
 import sqlite3
 import sys
 from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+from collections import Counter
 from dataclasses import dataclass
+from urllib.request import Request, urlopen
 from pathlib import Path
 from typing import Iterable
 
@@ -45,6 +47,11 @@ DATABASE_PATH = DATA_DIR / "rag.sqlite3"
 
 # Default number of matching chunks printed by `search`.
 DEFAULT_TOP_K = 6
+
+# Hybrid retrieval compares this many results from each ranking before fusion.
+HYBRID_MIN_CANDIDATES = 30
+HYBRID_CANDIDATE_MULTIPLIER = 5
+RRF_RANK_CONSTANT = 60
 
 # Ollama runs locally and must already have the selected model available.
 OLLAMA_BASE_URL = "http://localhost:11434"
@@ -509,16 +516,130 @@ def retrieve_chunks(
     ]
 
 
+def retrieve_hybrid_chunks(
+    query: str,
+    top_k: int = DEFAULT_TOP_K,
+    document_name: str | None = None,
+) -> list[SearchHit]:
+    """Fuse dense and BM25 rankings using reciprocal rank fusion."""
+    candidate_count = max(
+        HYBRID_MIN_CANDIDATES, top_k * HYBRID_CANDIDATE_MULTIPLIER
+    )
+    dense_hits = retrieve_chunks(query, candidate_count, document_name)
+    if not dense_hits:
+        return []
+
+    connection = _connect()
+    try:
+        sql = (
+            "SELECT chunks.chunk_id, documents.file_name, chunks.page_number, "
+            "chunks.section, chunks.text FROM chunks "
+            "JOIN documents USING (document_id)"
+        )
+        parameters: tuple[str, ...] = ()
+        if document_name is not None:
+            sql += " WHERE documents.file_name = ?"
+            parameters = (document_name,)
+        rows = connection.execute(sql, parameters).fetchall()
+    finally:
+        connection.close()
+
+    terms = set(re.findall(r"[a-z0-9]+", query.casefold()))
+    tokens_by_id: dict[str, list[str]] = {}
+    for row in rows:
+        section = row["section"] or ""
+        tokens_by_id[row["chunk_id"]] = re.findall(
+            r"[a-z0-9]+", f"{section} {row['text']}".casefold()
+        )
+    doc_frequency = Counter(
+        term for tokens in tokens_by_id.values() for term in set(tokens)
+    )
+    average_length = sum(map(len, tokens_by_id.values())) / max(1, len(rows))
+    lexical_scores: dict[str, float] = {}
+    for row in rows:
+        chunk_id = row["chunk_id"]
+        tokens = tokens_by_id[chunk_id]
+        frequencies = Counter(tokens)
+        score = 0.0
+        for term in terms:
+            frequency = frequencies[term]
+            if frequency == 0:
+                continue
+            inverse_frequency = math.log(
+                1 + (len(rows) - doc_frequency[term] + 0.5)
+                / (doc_frequency[term] + 0.5)
+            )
+            denominator = frequency + 1.2 * (
+                0.25 + 0.75 * len(tokens) / max(1.0, average_length)
+            )
+            score += inverse_frequency * frequency * 2.2 / denominator
+        if score > 0:
+            lexical_scores[chunk_id] = score
+
+    lexical_order = sorted(
+        lexical_scores, key=lexical_scores.get, reverse=True
+    )[:candidate_count]
+    metadata = {row["chunk_id"]: row for row in rows}
+    fused_scores: dict[str, float] = {}
+    dense_score: dict[str, float] = {}
+    for rank, hit in enumerate(dense_hits, start=1):
+        dense_score[hit.chunk_id] = hit.score
+        fused_scores[hit.chunk_id] = 1 / (RRF_RANK_CONSTANT + rank)
+    for rank, chunk_id in enumerate(lexical_order, start=1):
+        fused_scores[chunk_id] = fused_scores.get(chunk_id, 0.0) + (
+            1 / (RRF_RANK_CONSTANT + rank)
+        )
+
+    ranked_ids = sorted(
+        fused_scores,
+        key=lambda chunk_id: (
+            fused_scores[chunk_id], dense_score.get(chunk_id, 0.0)
+        ),
+        reverse=True,
+    )[:top_k]
+    return [
+        SearchHit(
+            rank=rank,
+            score=fused_scores[chunk_id],
+            chunk_id=chunk_id,
+            file_name=metadata[chunk_id]["file_name"],
+            page_number=metadata[chunk_id]["page_number"],
+            section=metadata[chunk_id]["section"],
+            text=metadata[chunk_id]["text"],
+        )
+        for rank, chunk_id in enumerate(ranked_ids, start=1)
+    ]
+
+
+def retrieve_by_mode(
+    query: str,
+    top_k: int = DEFAULT_TOP_K,
+    document_name: str | None = None,
+    retrieval_mode: str = "dense",
+) -> list[SearchHit]:
+    """Select the baseline dense retriever or optional hybrid retriever."""
+    if retrieval_mode == "dense":
+        return retrieve_chunks(query, top_k, document_name)
+    if retrieval_mode == "hybrid":
+        return retrieve_hybrid_chunks(query, top_k, document_name)
+    raise ValueError("--retrieval-mode must be 'dense' or 'hybrid'.")
+
+
 def search(
     query: str,
     top_k: int = DEFAULT_TOP_K,
     document_name: str | None = None,
+    retrieval_mode: str = "dense",
 ) -> None:
-    hits = retrieve_chunks(query, top_k, document_name)
+    hits = retrieve_by_mode(query, top_k, document_name, retrieval_mode)
     if not hits:
         print("No chunks are indexed yet. Add a PDF first.")
         return
 
+    score_description = (
+        "cosine similarity" if retrieval_mode == "dense" else "reciprocal-rank fusion"
+    )
+    print(f"Retrieval mode: {retrieval_mode} | score: {score_description}")
     for hit in hits:
         print(
             f"\n{hit.rank}. score={hit.score:.3f} | "
@@ -602,6 +723,7 @@ def ask(
     top_k: int = DEFAULT_TOP_K,
     model_name: str = OLLAMA_MODEL,
     document_name: str | None = None,
+    retrieval_mode: str = "dense",
 ) -> None:
     available_documents = indexed_document_names()
     if not available_documents:
@@ -622,14 +744,14 @@ def ask(
             f"PDF {document_name!r} is not indexed. Indexed PDFs: {choices}"
         )
 
-    hits = retrieve_chunks(question, top_k, document_name)
+    hits = retrieve_by_mode(question, top_k, document_name, retrieval_mode)
     if not hits:
         print("No chunks are indexed for that PDF.")
         return
 
     print(
         f"Answering from {document_name} with {model_name}, "
-        f"using the top {len(hits)} retrieved chunks..."
+        f"using {retrieval_mode} retrieval and the top {len(hits)} chunks..."
     )
     answer = _call_ollama(question, hits, model_name)
     answer = re.sub(r"(?<!\w)\((S\d+)\)", r"[\1]", answer)
@@ -691,6 +813,12 @@ def build_parser() -> argparse.ArgumentParser:
         "--document",
         help="restrict search to this exact indexed PDF filename",
     )
+    search_parser.add_argument(
+        "--retrieval-mode",
+        choices=("dense", "hybrid"),
+        default="dense",
+        help="dense cosine search or hybrid dense plus BM25 search (default: dense)",
+    )
 
     ask_parser = commands.add_parser(
         "ask", help="answer from retrieved PDF excerpts with local Ollama"
@@ -714,6 +842,12 @@ def build_parser() -> argparse.ArgumentParser:
             "multiple PDFs are indexed"
         ),
     )
+    ask_parser.add_argument(
+        "--retrieval-mode",
+        choices=("dense", "hybrid"),
+        default="dense",
+        help="dense cosine search or hybrid dense plus BM25 search (default: dense)",
+    )
     return parser
 
 
@@ -728,9 +862,12 @@ def main() -> int:
         elif args.command == "list":
             list_documents()
         elif args.command == "search":
-            search(args.query, args.top_k, args.document)
+            search(args.query, args.top_k, args.document, args.retrieval_mode)
         elif args.command == "ask":
-            ask(args.question, args.top_k, args.model, args.document)
+            ask(
+                args.question, args.top_k, args.model, args.document,
+                args.retrieval_mode,
+            )
     except (OSError, RuntimeError, ValueError, sqlite3.Error) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 1

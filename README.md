@@ -28,8 +28,9 @@ python rag.py preview .\2405.05672v1.pdf --page 2
 python rag.py add .\2405.05672v1.pdf
 python rag.py list
 python rag.py search "How does the paper represent sign language gestures?"
-python rag.py search "keypoint streams" --top-k 8
+python rag.py search "keypoint streams" --top-k 6
 python rag.py search "Which datasets were used?" --document "5563_Uni_Sign_Toward_Unified_S.pdf"
+python rag.py search "Which datasets were used?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --retrieval-mode hybrid
 ```
 
 The database is created at `rag_data/rag.sqlite3`. It contains document
@@ -75,19 +76,29 @@ lab4 workstation. Change OLLAMA_MODEL near the top of rag.py or pass another
 installed model with the --model option.
 
     python rag.py ask "Which datasets were used for evaluation?"
-    python rag.py ask "Which datasets were used for evaluation?" --top-k 10
+    python rag.py ask "Which datasets were used for evaluation?" --top-k 6
     python rag.py ask "Which datasets were used for evaluation?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --model qwen3:8b
+    python rag.py ask "Which datasets were used for evaluation?" --document "5563_Uni_Sign_Toward_Unified_S.pdf" --retrieval-mode hybrid
 
-The ask command uses the same dense retrieval as search, then sends only the
-retrieved chunks to Ollama through its local chat API. The prompt asks the
-model to rely on those excerpts, cite claims with labels such as [S1], and say when the
-retrieved evidence is insufficient. A source list maps each citation label to
-the PDF file, page, section, and chunk ID. Only sources cited in the generated answer are printed. If only one PDF is indexed, ask uses
-it automatically. If several PDFs are indexed, specify one with --document;
+The ask command uses the selected retrieval mode, then sends only the retrieved
+chunks to Ollama through its local chat API. Dense cosine retrieval remains the
+default. The prompt asks the model to rely on those excerpts, cite claims with
+labels such as [S1], and say when the retrieved evidence is insufficient. A
+source list maps each citation label to the PDF file, page, section, and chunk
+ID. Only sources cited in the generated answer are printed. If only one PDF is
+indexed, ask uses it automatically. If several PDFs are indexed, specify one with --document;
 this prevents the answer from combining different papers. Search still searches
 all PDFs unless --document is supplied. An answer can still be missed if the
-retriever does not return the needed passage; ask does not yet add keyword or
-iterative retrieval.
+retriever does not return the needed passage. Dense search is the baseline.
+Add --retrieval-mode hybrid to search or ask to combine dense rankings with BM25
+keyword rankings using reciprocal rank fusion. Keyword matching rewards exact
+word overlap, while dense matching can find semantically related wording.
+Hybrid mode uses the same SQLite index and requires no re-indexing.
+Its score is a fused ranking score, so compare chunk IDs and ranks rather than
+numeric scores between dense and hybrid results. By default, hybrid mode
+considers up to max(30, top-k times 5) candidates from each ranking. The
+candidate count and reciprocal-rank constant are adjustable near the top of
+rag.py.
 
 ## What this version deliberately supports
 
@@ -96,6 +107,8 @@ iterative retrieval.
 - Page-aware, section-aware chunks and result citations using PDF page numbers.
 - Local dense embeddings and exact cosine similarity. The exact search scans
   every stored vector, which is simple and suitable for a small learning corpus.
+- Optional local BM25 keyword retrieval fused with dense rankings. Dense-only
+  remains the default so both modes can be compared against the same benchmark.
 - A basic column-order heuristic based on text-block positions. Complex tables,
   sidebars, and multi-column layouts still deserve visual inspection.
 
