@@ -110,6 +110,51 @@ downloaded on first use and cached locally; dense and hybrid modes do not load
 it. RERANK_CANDIDATES, RERANK_BATCH_SIZE, and RERANK_MAX_LENGTH are adjustable
 near the top of rag.py. Reranking does not require re-indexing the PDFs.
 
+## Evaluate retrieval against your benchmark
+
+Create a CSV from your benchmark questions using `benchmark_template.csv`. Use
+one row per question and these columns:
+
+- `question_id`: a stable short label such as `q01`.
+- `document`: exact indexed PDF filename; leave blank to search all indexed PDFs.
+- `question`: the search question.
+- `relevant_chunk_ids`: **all** chunks you have judged relevant to answering the
+  question, separated by `|`. If a question needs two passages, record both IDs.
+  Add newly identified relevant chunks here too, even if an earlier run did not
+  retrieve them.
+
+Example `relevant_chunk_ids` value: `248cce977151-c0007|248cce977151-c0011`.
+The IDs must exist in the current SQLite index. If chunking settings changed,
+re-add the PDF and update labels to the new chunk IDs before evaluating.
+
+Run the benchmark with:
+
+```powershell
+python evaluate.py benchmark.csv --retrieval-depth 10 --metric-k 6
+```
+
+The evaluator compares dense, hybrid, rerank, and hybrid-rerank by default. The
+reranker may download its model on first use. To run only the two fast baseline
+modes, add `--modes dense hybrid`. This evaluates retrieval only and does not
+call Ollama.
+
+It writes three files under `evaluation_results/`:
+
+- `retrieved_chunks.csv`: every returned chunk through rank 10, with its text,
+  score, rank, and whether its ID is marked relevant.
+- `question_metrics.csv`: per-question Recall@6, Precision@6, MRR@6, first
+  relevant rank, complete coverage, and any labeled chunks not retrieved.
+- `mode_summary.csv`: macro averages and success/complete-coverage rates by
+  retrieval mode.
+
+`--retrieval-depth` controls how many ranked chunks are saved; `--metric-k`
+controls the cutoff scored. The defaults save the top 10 while scoring the
+agreed top 6. Recall@6 is the fraction of all labeled relevant chunks found in
+the first 6. Complete coverage means every labeled relevant chunk for that
+question appeared in the first 6. These metrics depend on labeling all relevant
+evidence chunks, so include more than just the chunk returned by one particular
+run.
+
 ## What this version deliberately supports
 
 - Text-based PDFs that contain selectable text. OCR for scanned PDFs is not

@@ -12,6 +12,7 @@ import sys
 from urllib.error import HTTPError, URLError
 from collections import Counter
 from dataclasses import dataclass
+from functools import lru_cache
 from urllib.request import Request, urlopen
 from pathlib import Path
 from typing import Iterable
@@ -311,6 +312,7 @@ def _connect() -> sqlite3.Connection:
     return connection
 
 
+@lru_cache(maxsize=1)
 def _load_model():
     try:
         from sentence_transformers import SentenceTransformer
@@ -618,14 +620,8 @@ def retrieve_hybrid_chunks(
 
 
 
-def rerank_candidates(
-    query: str,
-    candidates: list[SearchHit],
-    top_k: int,
-) -> list[SearchHit]:
-    """Score query-passage pairs with a local CrossEncoder and return the best hits."""
-    if not candidates:
-        return []
+@lru_cache(maxsize=1)
+def _load_cross_encoder():
     try:
         from sentence_transformers import CrossEncoder
     except ImportError as exc:
@@ -636,7 +632,18 @@ def rerank_candidates(
     model_options: dict[str, object] = {"max_length": RERANK_MAX_LENGTH}
     if EMBEDDING_DEVICE is not None:
         model_options["device"] = EMBEDDING_DEVICE
-    model = CrossEncoder(RERANKER_MODEL, **model_options)
+    return CrossEncoder(RERANKER_MODEL, **model_options)
+
+
+def rerank_candidates(
+    query: str,
+    candidates: list[SearchHit],
+    top_k: int,
+) -> list[SearchHit]:
+    """Score query-passage pairs with a local CrossEncoder and return the best hits."""
+    if not candidates:
+        return []
+    model = _load_cross_encoder()
     pairs = [
         (query, f"Section: {hit.section}\n{hit.text}")
         for hit in candidates
