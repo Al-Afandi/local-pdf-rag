@@ -14,6 +14,7 @@ import rag
 
 
 RETRIEVAL_MODES = ("dense", "hybrid", "rerank", "hybrid-rerank")
+ANSWERABILITY_LABELS = {"answerable", "unanswerable", "uncertain"}
 
 
 def parse_relevant_ids(value: str, row_number: int) -> list[str]:
@@ -50,14 +51,45 @@ def load_benchmark(path: Path) -> list[dict[str, object]]:
                 raise ValueError(f"Benchmark row {row_number} has an empty question.")
             question_id = (row.get("question_id") or "").strip() or f"q{row_number - 1:03d}"
             document = (row.get("document") or "").strip() or None
-            relevant_ids = parse_relevant_ids(
-                row.get("relevant_chunk_ids") or "", row_number
+            raw_ids = (row.get("relevant_chunk_ids") or "").strip()
+            raw_answerability = (row.get("answerability") or "").strip().casefold()
+            if raw_answerability and raw_answerability not in ANSWERABILITY_LABELS:
+                labels = ", ".join(sorted(ANSWERABILITY_LABELS))
+                raise ValueError(
+                    f"Benchmark row {row_number} has invalid answerability "
+                    f"{raw_answerability!r}. Use one of: {labels}."
+                )
+            if raw_answerability:
+                answerability = raw_answerability
+            elif raw_ids:
+                answerability = "answerable"
+            else:
+                raise ValueError(
+                    f"Benchmark row {row_number} has no relevant_chunk_ids. "
+                    "Mark it answerability=unanswerable if the source was checked "
+                    "and contains no evidence, or uncertain if it still needs review."
+                )
+            relevant_ids = (
+                parse_relevant_ids(raw_ids, row_number)
+                if raw_ids
+                else []
             )
+            if answerability == "answerable" and not relevant_ids:
+                raise ValueError(
+                    f"Benchmark row {row_number} is marked answerable but has no "
+                    "relevant_chunk_ids."
+                )
+            if answerability != "answerable" and relevant_ids:
+                raise ValueError(
+                    f"Benchmark row {row_number} is marked {answerability} but "
+                    "also lists relevant_chunk_ids."
+                )
             questions.append(
                 {
                     "question_id": question_id,
                     "question": question,
                     "document": document,
+                    "answerability": answerability,
                     "relevant_chunk_ids": relevant_ids,
                 }
             )
@@ -123,6 +155,7 @@ def evaluate(
         question_text = str(question["question"])
         document = question["document"]
         relevant_ids = set(question["relevant_chunk_ids"])
+        answerability = str(question["answerability"])
 
         for mode in modes:
             hits = rag.retrieve_by_mode(
@@ -131,13 +164,16 @@ def evaluate(
                 document_name=document,
                 retrieval_mode=mode,
             )
+            is_scored = answerability == "answerable"
             found_ids = [hit.chunk_id for hit in hits if hit.chunk_id in relevant_ids]
             found_at_k = [hit for hit in hits[:metric_k] if hit.chunk_id in relevant_ids]
             missing_ids = sorted(relevant_ids - set(found_ids))
             first_rank = min((hit.rank for hit in found_at_k), default=None)
-            recall = len({hit.chunk_id for hit in found_at_k}) / len(relevant_ids)
-            precision = len(found_at_k) / min(metric_k, len(hits)) if hits else 0.0
-            reciprocal_rank = 1 / first_rank if first_rank is not None else 0.0
+            recall = len({hit.chunk_id for hit in found_at_k}) / len(relevant_ids) if is_scored else None
+            precision = (
+                len(found_at_k) / min(metric_k, len(hits)) if hits else 0.0
+            ) if is_scored else None
+            reciprocal_rank = (1 / first_rank if first_rank is not None else 0.0) if is_scored else None
 
             for hit in hits:
                 hit_rows.append(
@@ -145,11 +181,12 @@ def evaluate(
                         "question_id": question_id,
                         "question": question_text,
                         "document_filter": document or "",
+                        "answerability": answerability,
                         "retrieval_mode": mode,
                         "rank": hit.rank,
                         "score": f"{hit.score:.8f}",
                         "chunk_id": hit.chunk_id,
-                        "is_relevant": hit.chunk_id in relevant_ids,
+                        "is_relevant": hit.chunk_id in relevant_ids if is_scored else "",
                         "file_name": hit.file_name,
                         "page_number": hit.page_number,
                         "section": hit.section,
@@ -161,39 +198,45 @@ def evaluate(
                 "question_id": question_id,
                 "question": question_text,
                 "document_filter": document or "",
+                "answerability": answerability,
                 "retrieval_mode": mode,
                 "retrieved_count": len(hits),
-                "relevant_count": len(relevant_ids),
-                f"relevant_found_at_{metric_k}": len(found_at_k),
-                f"recall_at_{metric_k}": f"{recall:.6f}",
-                f"precision_at_{metric_k}": f"{precision:.6f}",
-                f"mrr_at_{metric_k}": f"{reciprocal_rank:.6f}",
+                "relevant_count": len(relevant_ids) if is_scored else "",
+                f"relevant_found_at_{metric_k}": len(found_at_k) if is_scored else "",
+                f"recall_at_{metric_k}": f"{recall:.6f}" if is_scored else "",
+                f"precision_at_{metric_k}": f"{precision:.6f}" if is_scored else "",
+                f"mrr_at_{metric_k}": f"{reciprocal_rank:.6f}" if is_scored else "",
                 "first_relevant_rank": first_rank or "",
-                f"all_relevant_found_at_{metric_k}": len(found_at_k) == len(relevant_ids),
+                f"all_relevant_found_at_{metric_k}": (
+                    len(found_at_k) == len(relevant_ids) if is_scored else ""
+                ),
                 "relevant_chunk_ids": " | ".join(sorted(relevant_ids)),
                 "found_relevant_chunk_ids_at_metric_k": " | ".join(
                     hit.chunk_id for hit in found_at_k
-                ),
-                "relevant_ids_not_retrieved": " | ".join(missing_ids),
+                ) if is_scored else "",
+                "relevant_ids_not_retrieved": " | ".join(missing_ids) if is_scored else "",
             }
             metric_rows.append(metric)
-            per_mode[mode].append(
-                {
-                    "recall": recall,
-                    "precision": precision,
-                    "mrr": reciprocal_rank,
-                    "success": bool(found_at_k),
-                    "complete": len(found_at_k) == len(relevant_ids),
-                }
-            )
-            print(
-                f"{question_id} | {mode:14} | "
-                f"Recall@{metric_k}={recall:.2f} | "
-                f"first relevant rank={first_rank or 'not found'}"
-            )
+            if is_scored:
+                per_mode[mode].append(
+                    {
+                        "recall": recall,
+                        "precision": precision,
+                        "mrr": reciprocal_rank,
+                        "success": bool(found_at_k),
+                        "complete": len(found_at_k) == len(relevant_ids),
+                    }
+                )
+                print(
+                    f"{question_id} | {mode:14} | "
+                    f"Recall@{metric_k}={recall:.2f} | "
+                    f"first relevant rank={first_rank or 'not found'}"
+                )
+            else:
+                print(f"{question_id} | {mode:14} | {answerability}; ranking metrics skipped")
 
     metric_k_fields = [
-        "question_id", "question", "document_filter", "retrieval_mode",
+        "question_id", "question", "document_filter", "answerability", "retrieval_mode",
         "retrieved_count", "relevant_count", f"relevant_found_at_{metric_k}",
         f"recall_at_{metric_k}", f"precision_at_{metric_k}", f"mrr_at_{metric_k}",
         "first_relevant_rank", f"all_relevant_found_at_{metric_k}",
@@ -203,7 +246,7 @@ def evaluate(
     write_csv(
         output_dir / "retrieved_chunks.csv",
         [
-            "question_id", "question", "document_filter", "retrieval_mode", "rank",
+            "question_id", "question", "document_filter", "answerability", "retrieval_mode", "rank",
             "score", "chunk_id", "is_relevant", "file_name", "page_number",
             "section", "text",
         ],
@@ -215,21 +258,28 @@ def evaluate(
     for mode in modes:
         values = per_mode[mode]
         count = len(values)
+        answerability_counts = {
+            label: sum(question["answerability"] == label for question in questions)
+            for label in ANSWERABILITY_LABELS
+        }
         summary_rows.append(
             {
                 "retrieval_mode": mode,
-                "question_count": count,
-                f"mean_recall_at_{metric_k}": f"{sum(v['recall'] for v in values) / count:.6f}",
-                f"mean_precision_at_{metric_k}": f"{sum(v['precision'] for v in values) / count:.6f}",
-                f"mrr_at_{metric_k}": f"{sum(v['mrr'] for v in values) / count:.6f}",
-                f"success_rate_at_{metric_k}": f"{sum(v['success'] for v in values) / count:.6f}",
-                f"complete_coverage_rate_at_{metric_k}": f"{sum(v['complete'] for v in values) / count:.6f}",
+                "answerable_question_count": count,
+                "unanswerable_question_count": answerability_counts["unanswerable"],
+                "uncertain_question_count": answerability_counts["uncertain"],
+                f"mean_recall_at_{metric_k}": f"{sum(v['recall'] for v in values) / count:.6f}" if count else "",
+                f"mean_precision_at_{metric_k}": f"{sum(v['precision'] for v in values) / count:.6f}" if count else "",
+                f"mrr_at_{metric_k}": f"{sum(v['mrr'] for v in values) / count:.6f}" if count else "",
+                f"success_rate_at_{metric_k}": f"{sum(v['success'] for v in values) / count:.6f}" if count else "",
+                f"complete_coverage_rate_at_{metric_k}": f"{sum(v['complete'] for v in values) / count:.6f}" if count else "",
             }
         )
     write_csv(
         output_dir / "mode_summary.csv",
         [
-            "retrieval_mode", "question_count", f"mean_recall_at_{metric_k}",
+            "retrieval_mode", "answerable_question_count", "unanswerable_question_count",
+            "uncertain_question_count", f"mean_recall_at_{metric_k}",
             f"mean_precision_at_{metric_k}", f"mrr_at_{metric_k}",
             f"success_rate_at_{metric_k}", f"complete_coverage_rate_at_{metric_k}",
         ],

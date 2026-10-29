@@ -118,10 +118,19 @@ one row per question and these columns:
 - `question_id`: a stable short label such as `q01`.
 - `document`: exact indexed PDF filename; leave blank to search all indexed PDFs.
 - `question`: the search question.
+- `answerability`: `answerable`, `unanswerable`, or `uncertain`.
 - `relevant_chunk_ids`: **all** chunks you have judged relevant to answering the
   question, separated by `|`. If a question needs two passages, record both IDs.
   Add newly identified relevant chunks here too, even if an earlier run did not
   retrieve them.
+
+For an answerable question, provide at least one relevant chunk ID. If you have
+checked the selected PDF and it contains no evidence for the question, mark it
+`unanswerable` and leave `relevant_chunk_ids` blank. If you have not established
+whether the PDF contains evidence, mark it `uncertain`; do not treat missing
+labels as proof that the paper lacks the answer. Unanswerable and uncertain
+questions still have their retrieved chunks saved, but they are excluded from
+relevance ranking metrics.
 
 Example `relevant_chunk_ids` value: `248cce977151-c0007|248cce977151-c0011`.
 The IDs must exist in the current SQLite index. If chunking settings changed,
@@ -142,8 +151,9 @@ It writes three files under `evaluation_results/`:
 
 - `retrieved_chunks.csv`: every returned chunk through rank 10, with its text,
   score, rank, and whether its ID is marked relevant.
-- `question_metrics.csv`: per-question Recall@6, Precision@6, MRR@6, first
-  relevant rank, complete coverage, and any labeled chunks not retrieved.
+- `question_metrics.csv`: per-question answerability, Recall@6, Precision@6,
+  MRR@6, first relevant rank, complete coverage, and any labeled chunks not
+  retrieved. Ranking metrics are blank for unanswerable and uncertain questions.
 - `mode_summary.csv`: macro averages and success/complete-coverage rates by
   retrieval mode.
 
