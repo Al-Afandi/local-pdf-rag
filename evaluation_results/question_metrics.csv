@@ -1,0 +1,37 @@
+﻿question_id,question,document_filter,answerability,retrieval_mode,retrieved_count,relevant_count,relevant_found_at_6,recall_at_6,precision_at_6,mrr_at_6,first_relevant_rank,all_relevant_found_at_6,relevant_chunk_ids,found_relevant_chunk_ids_at_metric_k,relevant_ids_not_retrieved
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,10,1,1,1.000000,0.166667,0.166667,6,True,248cce977151-c0011,248cce977151-c0011,
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0011,248cce977151-c0011,
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0011,248cce977151-c0011,
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0011,248cce977151-c0011,
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,10,1,1,1.000000,0.166667,0.500000,2,True,248cce977151-c0016,248cce977151-c0016,
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,10,1,1,1.000000,0.166667,0.500000,2,True,248cce977151-c0016,248cce977151-c0016,
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,10,1,1,1.000000,0.166667,0.500000,2,True,248cce977151-c0016,248cce977151-c0016,
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,10,1,1,1.000000,0.166667,0.500000,2,True,248cce977151-c0016,248cce977151-c0016,
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,10,3,2,0.666667,0.333333,0.200000,5,False,248cce977151-c0007 | 248cce977151-c0011 | 248cce977151-c0042,248cce977151-c0042 | 248cce977151-c0007,
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,10,3,2,0.666667,0.333333,0.500000,2,False,248cce977151-c0007 | 248cce977151-c0011 | 248cce977151-c0042,248cce977151-c0007 | 248cce977151-c0011,248cce977151-c0042
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,10,3,2,0.666667,0.333333,0.333333,3,False,248cce977151-c0007 | 248cce977151-c0011 | 248cce977151-c0042,248cce977151-c0042 | 248cce977151-c0007,248cce977151-c0011
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,10,3,2,0.666667,0.333333,0.333333,3,False,248cce977151-c0007 | 248cce977151-c0011 | 248cce977151-c0042,248cce977151-c0042 | 248cce977151-c0007,248cce977151-c0011
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,10,1,1,1.000000,0.166667,0.500000,2,True,248cce977151-c0059,248cce977151-c0059,
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0059,248cce977151-c0059,
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0059,248cce977151-c0059,
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0059,248cce977151-c0059,
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,10,2,2,1.000000,0.333333,1.000000,1,True,248cce977151-c0091 | 248cce977151-c0110,248cce977151-c0091 | 248cce977151-c0110,
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,10,2,2,1.000000,0.333333,1.000000,1,True,248cce977151-c0091 | 248cce977151-c0110,248cce977151-c0110 | 248cce977151-c0091,
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,10,2,1,0.500000,0.166667,0.166667,6,False,248cce977151-c0091 | 248cce977151-c0110,248cce977151-c0110,
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,10,2,1,0.500000,0.166667,0.200000,5,False,248cce977151-c0091 | 248cce977151-c0110,248cce977151-c0110,
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0105,248cce977151-c0105,
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0105,248cce977151-c0105,
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0105,248cce977151-c0105,
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0105,248cce977151-c0105,
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0090,248cce977151-c0090,
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0090,248cce977151-c0090,
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0090,248cce977151-c0090,
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,10,1,1,1.000000,0.166667,1.000000,1,True,248cce977151-c0090,248cce977151-c0090,
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,10,2,1,0.500000,0.166667,0.166667,6,False,248cce977151-c0090 | 248cce977151-c0091,248cce977151-c0090,248cce977151-c0091
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,10,2,1,0.500000,0.166667,1.000000,1,False,248cce977151-c0090 | 248cce977151-c0091,248cce977151-c0090,248cce977151-c0091
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,10,2,2,1.000000,0.333333,0.500000,2,True,248cce977151-c0090 | 248cce977151-c0091,248cce977151-c0091 | 248cce977151-c0090,
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,10,2,2,1.000000,0.333333,0.333333,3,True,248cce977151-c0090 | 248cce977151-c0091,248cce977151-c0091 | 248cce977151-c0090,
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,10,,,,,,,,,,
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,10,,,,,,,,,,
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,10,,,,,,,,,,
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,10,,,,,,,,,,

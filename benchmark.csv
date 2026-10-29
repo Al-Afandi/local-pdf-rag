@@ -1,0 +1,10 @@
+question_id,document,question,answerability,relevant_chunk_ids
+0,2405.05672v1.pdf,Which four keypoint streams does the proposed model use?,answerable,248cce977151-c0011
+1,2405.05672v1.pdf,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,answerable,248cce977151-c0016
+2,2405.05672v1.pdf,How are gestures represented for the model?,answerable,248cce977151-c0007 | 248cce977151-c0011 | 248cce977151-c0042
+3,2405.05672v1.pdf,What is the fusion head’s role in the multi-stream model?,answerable,248cce977151-c0059
+4,2405.05672v1.pdf,Which datasets did the authors evaluate on?,answerable,248cce977151-c0091 | 248cce977151-c0110
+5,2405.05672v1.pdf,What self-distillation weight gave the best reported performance?,answerable,248cce977151-c0105
+6,2405.05672v1.pdf,How much did the method improve over TwoStream-SLR on the test sets?,answerable,248cce977151-c0090
+7,2405.05672v1.pdf,What evidence supports the paper’s claim that its method improves results?,answerable,248cce977151-c0090 | 248cce977151-c0091
+8,2405.05672v1.pdf,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",unanswerable,

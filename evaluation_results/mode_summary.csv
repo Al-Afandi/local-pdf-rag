@@ -1,0 +1,5 @@
+﻿retrieval_mode,answerable_question_count,unanswerable_question_count,uncertain_question_count,mean_recall_at_6,mean_precision_at_6,mrr_at_6,success_rate_at_6,complete_coverage_rate_at_6
+dense,8,1,0,0.895833,0.208333,0.566667,1.000000,0.750000
+hybrid,8,1,0,0.895833,0.208333,0.875000,1.000000,0.750000
+rerank,8,1,0,0.895833,0.208333,0.687500,1.000000,0.750000
+hybrid-rerank,8,1,0,0.895833,0.208333,0.670833,1.000000,0.750000
