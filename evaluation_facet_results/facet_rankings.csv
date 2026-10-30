@@ -1,0 +1,361 @@
+﻿question_id,question,document_filter,source_answerability,retrieval_mode,rank,score,chunk_id,matched_facet_ids,supports_any_facet,file_name,page_number,section
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,1,0.62058586,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,2,0.57807177,248cce977151-c0090,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,3,0.55944526,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,4,0.53656781,248cce977151-c0059,,False,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,5,0.52326262,248cce977151-c0030,,False,2405.05672v1.pdf,4,2.4 Multi-Stream Networks
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,6,0.49581179,248cce977151-c0011,0,True,2405.05672v1.pdf,2,1 Introduction
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,7,0.48756242,248cce977151-c0046,,False,2405.05672v1.pdf,6,3.2.2 Keypoint attention module
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,8,0.47967440,248cce977151-c0068,,False,2405.05672v1.pdf,8,4 Experiments
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,9,0.46736592,248cce977151-c0077,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,dense,10,0.45733190,248cce977151-c0043,,False,2405.05672v1.pdf,6,3.2.1 Keypoint decoupling
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,1,0.03128055,248cce977151-c0011,0,True,2405.05672v1.pdf,2,1 Introduction
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,2,0.02941176,248cce977151-c0068,,False,2405.05672v1.pdf,8,4 Experiments
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,3,0.02905167,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,4,0.02903091,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,5,0.02843889,248cce977151-c0001,,False,2405.05672v1.pdf,1,Abstract
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,6,0.02819138,248cce977151-c0035,,False,2405.05672v1.pdf,5,3 Proposed Method
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,7,0.02736499,248cce977151-c0090,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,8,0.02725291,248cce977151-c0059,,False,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,9,0.02703174,248cce977151-c0109,,False,2405.05672v1.pdf,12,5 Conclusion
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid,10,0.02678571,248cce977151-c0043,,False,2405.05672v1.pdf,6,3.2.1 Keypoint decoupling
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,1,6.45294476,248cce977151-c0011,0,True,2405.05672v1.pdf,2,1 Introduction
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,2,3.24997473,248cce977151-c0030,,False,2405.05672v1.pdf,4,2.4 Multi-Stream Networks
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,3,1.43653250,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,4,-0.54624808,248cce977151-c0068,,False,2405.05672v1.pdf,8,4 Experiments
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,5,-1.78669953,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,6,-1.96788180,248cce977151-c0035,,False,2405.05672v1.pdf,5,3 Proposed Method
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,7,-2.28158712,248cce977151-c0008,,False,2405.05672v1.pdf,2,1 Introduction
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,8,-2.28294373,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,9,-2.88118410,248cce977151-c0025,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,rerank,10,-3.04149556,248cce977151-c0090,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,1,6.45294476,248cce977151-c0011,0,True,2405.05672v1.pdf,2,1 Introduction
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,2,3.83572793,248cce977151-c0109,,False,2405.05672v1.pdf,12,5 Conclusion
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,3,3.24997473,248cce977151-c0030,,False,2405.05672v1.pdf,4,2.4 Multi-Stream Networks
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,4,1.43653226,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,5,-0.54624808,248cce977151-c0068,,False,2405.05672v1.pdf,8,4 Experiments
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,6,-0.63467556,248cce977151-c0042,,False,2405.05672v1.pdf,6,3.2.1 Keypoint decoupling
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,7,-1.78670073,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,8,-1.96788180,248cce977151-c0035,,False,2405.05672v1.pdf,5,3 Proposed Method
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,9,-2.28158426,248cce977151-c0008,,False,2405.05672v1.pdf,2,1 Introduction
+0,Which four keypoint streams does the proposed model use?,2405.05672v1.pdf,answerable,hybrid-rerank,10,-2.28294373,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,1,0.78364778,248cce977151-c0006,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,2,0.73065722,248cce977151-c0016,0,True,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,3,0.64746022,248cce977151-c0074,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,4,0.62376350,248cce977151-c0007,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,5,0.62118393,248cce977151-c0012,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,6,0.60750097,248cce977151-c0109,,False,2405.05672v1.pdf,12,5 Conclusion
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,7,0.59523153,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,8,0.59498310,248cce977151-c0065,,False,2405.05672v1.pdf,8,3.3 SLT
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,9,0.58979201,248cce977151-c0111,,False,2405.05672v1.pdf,13,5 Conclusion
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,dense,10,0.58734667,248cce977151-c0009,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,1,0.03226646,248cce977151-c0006,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,2,0.03225806,248cce977151-c0016,0,True,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,3,0.03154496,248cce977151-c0109,,False,2405.05672v1.pdf,12,5 Conclusion
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,4,0.03055037,248cce977151-c0007,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,5,0.02985740,248cce977151-c0065,,False,2405.05672v1.pdf,8,3.3 SLT
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,6,0.02908325,248cce977151-c0018,,False,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,7,0.02900988,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,8,0.02798434,248cce977151-c0009,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,9,0.02788462,248cce977151-c0012,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid,10,0.02736727,248cce977151-c0074,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,1,5.26959658,248cce977151-c0006,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,2,4.99951315,248cce977151-c0016,0,True,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,3,3.83159781,248cce977151-c0007,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,4,3.27043462,248cce977151-c0109,,False,2405.05672v1.pdf,12,5 Conclusion
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,5,2.75408268,248cce977151-c0065,,False,2405.05672v1.pdf,8,3.3 SLT
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,6,2.55511570,248cce977151-c0001,,False,2405.05672v1.pdf,1,Abstract
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,7,1.56098926,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,8,1.35040987,248cce977151-c0017,,False,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,9,0.98866248,248cce977151-c0013,,False,2405.05672v1.pdf,2,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,rerank,10,0.05749751,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,1,5.26959801,248cce977151-c0006,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,2,4.99951315,248cce977151-c0016,0,True,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,3,3.83159781,248cce977151-c0007,,False,2405.05672v1.pdf,2,1 Introduction
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,4,3.27043343,248cce977151-c0109,,False,2405.05672v1.pdf,12,5 Conclusion
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,5,3.25186157,248cce977151-c0020,,False,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,6,2.75408268,248cce977151-c0065,,False,2405.05672v1.pdf,8,3.3 SLT
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,7,2.55511570,248cce977151-c0001,,False,2405.05672v1.pdf,1,Abstract
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,8,1.69771624,248cce977151-c0015,,False,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,9,1.56098926,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+1,How does the paper distinguish sign language recognition (SLR) from translation (SLT)?,2405.05672v1.pdf,answerable,hybrid-rerank,10,1.35040987,248cce977151-c0017,,False,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,1,0.55597675,248cce977151-c0004,,False,2405.05672v1.pdf,1,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,2,0.53862667,248cce977151-c0113,,False,2405.05672v1.pdf,13,5 Conclusion
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,3,0.53526622,248cce977151-c0005,,False,2405.05672v1.pdf,1,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,4,0.53384733,248cce977151-c0026,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,5,0.53223890,248cce977151-c0042,1,True,2405.05672v1.pdf,6,3.2.1 Keypoint decoupling
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,6,0.52925324,248cce977151-c0007,0,True,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,7,0.50609934,248cce977151-c0016,,False,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,8,0.50518727,248cce977151-c0011,1,True,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,9,0.50154996,248cce977151-c0001,,False,2405.05672v1.pdf,1,Abstract
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,dense,10,0.50031471,248cce977151-c0009,,False,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,1,0.03154496,248cce977151-c0004,,False,2405.05672v1.pdf,1,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,2,0.03102453,248cce977151-c0007,0,True,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,3,0.03088620,248cce977151-c0001,,False,2405.05672v1.pdf,1,Abstract
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,4,0.03015873,248cce977151-c0005,,False,2405.05672v1.pdf,1,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,5,0.02878726,248cce977151-c0109,,False,2405.05672v1.pdf,12,5 Conclusion
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,6,0.02821940,248cce977151-c0011,1,True,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,7,0.02808327,248cce977151-c0025,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,8,0.02758752,248cce977151-c0008,,False,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,9,0.02633391,248cce977151-c0009,,False,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid,10,0.02619863,248cce977151-c0099,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,1,0.35782710,248cce977151-c0008,,False,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,2,-1.49713373,248cce977151-c0001,,False,2405.05672v1.pdf,1,Abstract
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,3,-2.49048424,248cce977151-c0042,1,True,2405.05672v1.pdf,6,3.2.1 Keypoint decoupling
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,4,-2.49645591,248cce977151-c0007,0,True,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,5,-2.96863866,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,6,-4.64061260,248cce977151-c0026,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,7,-6.24000406,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,8,-6.32888412,248cce977151-c0016,,False,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,9,-6.89399719,248cce977151-c0025,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,rerank,10,-7.14824533,248cce977151-c0009,,False,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,1,0.35782334,248cce977151-c0008,,False,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,2,-1.49713445,248cce977151-c0001,,False,2405.05672v1.pdf,1,Abstract
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,3,-2.49048901,248cce977151-c0042,1,True,2405.05672v1.pdf,6,3.2.1 Keypoint decoupling
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,4,-2.49645615,248cce977151-c0007,0,True,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,5,-2.96863651,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,6,-4.00780249,248cce977151-c0012,,False,2405.05672v1.pdf,2,1 Introduction
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,7,-4.64061069,248cce977151-c0026,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,8,-5.01488113,248cce977151-c0052,,False,2405.05672v1.pdf,7,3.2.3 Position encoding
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,9,-6.24000788,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+2,How are gestures represented for the model?,2405.05672v1.pdf,answerable,hybrid-rerank,10,-6.32888317,248cce977151-c0016,,False,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,1,0.58481300,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,2,0.51769316,248cce977151-c0059,0,True,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,3,0.50004506,248cce977151-c0033,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,4,0.48066837,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,5,0.43876287,248cce977151-c0062,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,6,0.40641493,248cce977151-c0060,,False,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,7,0.38603953,248cce977151-c0024,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,8,0.37957719,248cce977151-c0056,,False,2405.05672v1.pdf,7,3.2.5 Head Network
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,9,0.35787615,248cce977151-c0046,,False,2405.05672v1.pdf,6,3.2.2 Keypoint attention module
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,dense,10,0.35241407,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,1,0.03252247,248cce977151-c0059,0,True,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,2,0.03226646,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,3,0.03149802,248cce977151-c0033,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,4,0.03001792,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,5,0.02913851,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,6,0.02908325,248cce977151-c0061,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,7,0.02854251,248cce977151-c0062,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,8,0.02803922,248cce977151-c0056,,False,2405.05672v1.pdf,7,3.2.5 Head Network
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,9,0.02758360,248cce977151-c0066,,False,2405.05672v1.pdf,8,3.3 SLT
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid,10,0.02744361,248cce977151-c0064,,False,2405.05672v1.pdf,8,3.2.8 Loss Function
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,1,5.33295918,248cce977151-c0059,0,True,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,2,2.09596109,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,3,1.92059553,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,4,0.24716358,248cce977151-c0033,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,5,-0.06561487,248cce977151-c0060,,False,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,6,-0.10322562,248cce977151-c0066,,False,2405.05672v1.pdf,8,3.3 SLT
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,7,-2.02428842,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,8,-2.93861866,248cce977151-c0061,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,9,-3.01316118,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,rerank,10,-3.59254122,248cce977151-c0011,,False,2405.05672v1.pdf,2,1 Introduction
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,1,5.33295870,248cce977151-c0059,0,True,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,2,2.09596109,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,3,1.92059553,248cce977151-c0002,,False,2405.05672v1.pdf,1,Abstract
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,4,0.24716358,248cce977151-c0033,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,5,-0.06561889,248cce977151-c0060,,False,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,6,-0.10322562,248cce977151-c0066,,False,2405.05672v1.pdf,8,3.3 SLT
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,7,-2.02428842,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,8,-2.93861866,248cce977151-c0061,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,9,-3.01316261,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+3,What is the fusion head’s role in the multi-stream model?,2405.05672v1.pdf,answerable,hybrid-rerank,10,-3.59254122,248cce977151-c0011,,False,2405.05672v1.pdf,2,1 Introduction
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,1,0.34622785,248cce977151-c0091,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,2,0.34341872,248cce977151-c0073,,False,2405.05672v1.pdf,8,4.1.2 Phoenix-2014T
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,3,0.34201539,248cce977151-c0090,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,4,0.32575268,248cce977151-c0110,0,True,2405.05672v1.pdf,13,5 Conclusion
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,5,0.31845891,248cce977151-c0093,,False,2405.05672v1.pdf,10,4.3.1 Impact of Keypoint Augment
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,6,0.30502939,248cce977151-c0071,,False,2405.05672v1.pdf,8,4.1.1 Phoenix-2014
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,7,0.30298090,248cce977151-c0082,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,8,0.29690459,248cce977151-c0079,,False,2405.05672v1.pdf,9,4.1.4 Evaluation Metrics
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,9,0.29237771,248cce977151-c0081,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,dense,10,0.28955963,248cce977151-c0060,,False,2405.05672v1.pdf,7,3.2.6 Fuse Head and Ensemble
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,1,0.03201844,248cce977151-c0110,0,True,2405.05672v1.pdf,13,5 Conclusion
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,2,0.03177806,248cce977151-c0091,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,3,0.03033088,248cce977151-c0079,,False,2405.05672v1.pdf,9,4.1.4 Evaluation Metrics
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,4,0.02964427,248cce977151-c0081,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,5,0.02957165,248cce977151-c0090,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,6,0.02698413,248cce977151-c0111,,False,2405.05672v1.pdf,13,5 Conclusion
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,7,0.02654712,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,8,0.02603002,248cce977151-c0104,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,9,0.02598927,248cce977151-c0036,,False,2405.05672v1.pdf,5,3.1 Keypoint augment
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid,10,0.02532654,248cce977151-c0100,,False,2405.05672v1.pdf,11,4.3.3 Impact of Attention Modules
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,1,-3.38625145,248cce977151-c0111,,False,2405.05672v1.pdf,13,5 Conclusion
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,2,-4.85725975,248cce977151-c0073,,False,2405.05672v1.pdf,8,4.1.2 Phoenix-2014T
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,3,-4.88393116,248cce977151-c0036,,False,2405.05672v1.pdf,5,3.1 Keypoint augment
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,4,-5.26497030,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,5,-5.44050312,248cce977151-c0078,,False,2405.05672v1.pdf,9,4.1.3 CSL-Daily
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,6,-5.69093132,248cce977151-c0110,0,True,2405.05672v1.pdf,13,5 Conclusion
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,7,-6.38686514,248cce977151-c0090,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,8,-6.95634317,248cce977151-c0091,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,9,-7.11621237,248cce977151-c0079,,False,2405.05672v1.pdf,9,4.1.4 Evaluation Metrics
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,rerank,10,-7.34791946,248cce977151-c0071,,False,2405.05672v1.pdf,8,4.1.1 Phoenix-2014
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,1,-3.38625145,248cce977151-c0111,,False,2405.05672v1.pdf,13,5 Conclusion
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,2,-4.85725975,248cce977151-c0073,,False,2405.05672v1.pdf,8,4.1.2 Phoenix-2014T
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,3,-4.88393116,248cce977151-c0036,,False,2405.05672v1.pdf,5,3.1 Keypoint augment
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,4,-5.26497030,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,5,-5.69093132,248cce977151-c0110,0,True,2405.05672v1.pdf,13,5 Conclusion
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,6,-6.38686514,248cce977151-c0090,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,7,-6.95634317,248cce977151-c0091,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,8,-6.99534607,248cce977151-c0044,,False,2405.05672v1.pdf,6,3.2.2 Keypoint attention module
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,9,-7.11621094,248cce977151-c0079,,False,2405.05672v1.pdf,9,4.1.4 Evaluation Metrics
+4,Which datasets did the authors evaluate on?,2405.05672v1.pdf,answerable,hybrid-rerank,10,-7.34791946,248cce977151-c0071,,False,2405.05672v1.pdf,8,4.1.1 Phoenix-2014
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,1,0.55809385,248cce977151-c0105,0,True,2405.05672v1.pdf,12,4.3.4 Impact of Self-Distillation weight
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,2,0.44536525,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,3,0.42747170,248cce977151-c0062,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,4,0.42639163,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,5,0.42579040,248cce977151-c0104,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,6,0.39937225,248cce977151-c0098,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,7,0.36905643,248cce977151-c0024,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,8,0.34987324,248cce977151-c0061,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,9,0.32959318,248cce977151-c0094,,False,2405.05672v1.pdf,11,4.3.1 Impact of Keypoint Augment
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,dense,10,0.25831914,248cce977151-c0103,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,1,0.03278689,248cce977151-c0105,0,True,2405.05672v1.pdf,12,4.3.4 Impact of Self-Distillation weight
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,2,0.03175403,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,3,0.03151365,248cce977151-c0104,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,4,0.03125763,248cce977151-c0062,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,5,0.02991071,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,6,0.02985740,248cce977151-c0061,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,7,0.02985075,248cce977151-c0024,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,8,0.02964427,248cce977151-c0098,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,9,0.02853124,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid,10,0.02840451,248cce977151-c0102,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,1,3.61626601,248cce977151-c0105,0,True,2405.05672v1.pdf,12,4.3.4 Impact of Self-Distillation weight
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,2,-2.00851464,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,3,-2.41630483,248cce977151-c0104,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,4,-4.11116695,248cce977151-c0098,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,5,-5.24815321,248cce977151-c0062,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,6,-5.47726440,248cce977151-c0061,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,7,-7.08403873,248cce977151-c0103,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,8,-7.88266087,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,9,-7.92834997,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,rerank,10,-9.21989536,248cce977151-c0024,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,1,3.61626577,248cce977151-c0105,0,True,2405.05672v1.pdf,12,4.3.4 Impact of Self-Distillation weight
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,2,-2.00851703,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,3,-2.41630483,248cce977151-c0104,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,4,-4.11116695,248cce977151-c0098,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,5,-5.24815321,248cce977151-c0062,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,6,-5.47726154,248cce977151-c0061,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,7,-7.08403826,248cce977151-c0103,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,8,-7.88266230,248cce977151-c0003,,False,2405.05672v1.pdf,1,Abstract
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,9,-7.92834997,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+5,What self-distillation weight gave the best reported performance?,2405.05672v1.pdf,answerable,hybrid-rerank,10,-9.21989536,248cce977151-c0024,,False,2405.05672v1.pdf,4,2.2 Introduce Keypoints into SLR and SLT
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,1,0.65334183,248cce977151-c0090,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,2,0.48784792,248cce977151-c0068,,False,2405.05672v1.pdf,8,4 Experiments
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,3,0.46971506,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,4,0.46427166,248cce977151-c0082,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,5,0.42756039,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,6,0.42604318,248cce977151-c0079,,False,2405.05672v1.pdf,9,4.1.4 Evaluation Metrics
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,7,0.40772820,248cce977151-c0106,,False,2405.05672v1.pdf,12,4.3.5 Impact of Spatial Global Regularization
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,8,0.38852322,248cce977151-c0063,,False,2405.05672v1.pdf,7,3.2.8 Loss Function
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,9,0.38337699,248cce977151-c0077,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,dense,10,0.37810284,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,1,0.03278689,248cce977151-c0090,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,2,0.02946912,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,3,0.02932363,248cce977151-c0091,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,4,0.02881426,248cce977151-c0106,,False,2405.05672v1.pdf,12,4.3.5 Impact of Spatial Global Regularization
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,5,0.02878726,248cce977151-c0074,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,6,0.02844551,248cce977151-c0082,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,7,0.02838164,248cce977151-c0080,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,8,0.02821940,248cce977151-c0043,,False,2405.05672v1.pdf,6,3.2.1 Keypoint decoupling
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,9,0.02763772,248cce977151-c0081,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid,10,0.02654095,248cce977151-c0077,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,1,6.34093523,248cce977151-c0090,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,2,3.51412940,248cce977151-c0091,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,3,2.98842549,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,4,2.28277206,248cce977151-c0081,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,5,-0.61853153,248cce977151-c0089,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,6,-1.22353148,248cce977151-c0088,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,7,-1.51543164,248cce977151-c0106,,False,2405.05672v1.pdf,12,4.3.5 Impact of Spatial Global Regularization
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,8,-1.61763036,248cce977151-c0086,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,9,-3.23242950,248cce977151-c0077,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,rerank,10,-3.74896169,248cce977151-c0069,,False,2405.05672v1.pdf,8,4 Experiments
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,1,6.34093571,248cce977151-c0090,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,2,3.51412702,248cce977151-c0091,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,3,2.98842669,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,4,2.28277206,248cce977151-c0081,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,5,-0.61853153,248cce977151-c0089,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,6,-1.51543152,248cce977151-c0106,,False,2405.05672v1.pdf,12,4.3.5 Impact of Spatial Global Regularization
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,7,-3.23242736,248cce977151-c0077,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,8,-3.74896169,248cce977151-c0069,,False,2405.05672v1.pdf,8,4 Experiments
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,9,-3.84972143,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+6,How much did the method improve over TwoStream-SLR on the test sets?,2405.05672v1.pdf,answerable,hybrid-rerank,10,-4.47010899,248cce977151-c0068,,False,2405.05672v1.pdf,8,4 Experiments
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,1,0.33508623,248cce977151-c0093,,False,2405.05672v1.pdf,10,4.3.1 Impact of Keypoint Augment
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,2,0.33104748,248cce977151-c0102,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,3,0.31888050,248cce977151-c0079,,False,2405.05672v1.pdf,9,4.1.4 Evaluation Metrics
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,4,0.30602509,248cce977151-c0094,,False,2405.05672v1.pdf,11,4.3.1 Impact of Keypoint Augment
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,5,0.29802036,248cce977151-c0104,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,6,0.28791127,248cce977151-c0090,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,7,0.27866280,248cce977151-c0082,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,8,0.26883343,248cce977151-c0098,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,9,0.26379076,248cce977151-c0062,,False,2405.05672v1.pdf,7,3.2.7 Self-Distillation
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,dense,10,0.25461474,248cce977151-c0103,,False,2405.05672v1.pdf,12,4.3.3 Impact of Attention Modules
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,1,0.02943723,248cce977151-c0090,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,2,0.02797068,248cce977151-c0096,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,3,0.02681011,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,4,0.02670940,248cce977151-c0074,,False,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,5,0.02635686,248cce977151-c0080,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,6,0.02523220,248cce977151-c0098,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,7,0.02486025,248cce977151-c0101,,False,2405.05672v1.pdf,11,4.3.3 Impact of Attention Modules
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,8,0.02475172,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,9,0.02418415,248cce977151-c0105,,False,2405.05672v1.pdf,12,4.3.4 Impact of Self-Distillation weight
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid,10,0.02402746,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,1,-8.06853390,248cce977151-c0098,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,2,-8.24302006,248cce977151-c0091,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,3,-8.69541740,248cce977151-c0012,,False,2405.05672v1.pdf,2,1 Introduction
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,4,-9.16156864,248cce977151-c0090,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,5,-9.34471989,248cce977151-c0095,,False,2405.05672v1.pdf,11,4.3.1 Impact of Keypoint Augment
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,6,-9.62941742,248cce977151-c0043,,False,2405.05672v1.pdf,6,3.2.1 Keypoint decoupling
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,7,-10.11404133,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,8,-10.19344330,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,9,-10.20550156,248cce977151-c0080,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,rerank,10,-10.33058643,248cce977151-c0100,,False,2405.05672v1.pdf,11,4.3.3 Impact of Attention Modules
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,1,-5.61850166,248cce977151-c0092,,False,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,2,-8.06853390,248cce977151-c0098,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,3,-8.24302006,248cce977151-c0091,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,4,-8.69541740,248cce977151-c0012,,False,2405.05672v1.pdf,2,1 Introduction
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,5,-9.16156864,248cce977151-c0090,0,True,2405.05672v1.pdf,10,4.2 Comparison with State-of-the-art Methods
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,6,-9.25340843,248cce977151-c0108,,False,2405.05672v1.pdf,12,4.3.5 Impact of Spatial Global Regularization
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,7,-9.34471989,248cce977151-c0095,,False,2405.05672v1.pdf,11,4.3.1 Impact of Keypoint Augment
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,8,-10.11404133,248cce977151-c0034,,False,2405.05672v1.pdf,5,2.4 Multi-Stream Networks
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,9,-10.19344330,248cce977151-c0097,,False,2405.05672v1.pdf,11,4.3.2 Impact of Each Component
+7,What evidence supports the paper’s claim that its method improves results?,2405.05672v1.pdf,answerable,hybrid-rerank,10,-10.20550156,248cce977151-c0080,,False,2405.05672v1.pdf,9,4.2 Comparison with State-of-the-art Methods
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,1,0.45404297,248cce977151-c0016,,,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,2,0.44973776,248cce977151-c0111,,,2405.05672v1.pdf,13,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,3,0.43750033,248cce977151-c0003,,,2405.05672v1.pdf,1,Abstract
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,4,0.43533811,248cce977151-c0006,,,2405.05672v1.pdf,2,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,5,0.43230867,248cce977151-c0133,,,2405.05672v1.pdf,15,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,6,0.42681253,248cce977151-c0135,,,2405.05672v1.pdf,15,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,7,0.42671528,248cce977151-c0112,,,2405.05672v1.pdf,13,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,8,0.42466563,248cce977151-c0074,,,2405.05672v1.pdf,9,4.1.2 Phoenix-2014T
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,9,0.41727999,248cce977151-c0012,,,2405.05672v1.pdf,2,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,dense,10,0.41651917,248cce977151-c0125,,,2405.05672v1.pdf,14,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,1,0.03077652,248cce977151-c0006,,,2405.05672v1.pdf,2,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,2,0.03009207,248cce977151-c0109,,,2405.05672v1.pdf,12,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,3,0.03001792,248cce977151-c0005,,,2405.05672v1.pdf,1,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,4,0.02905167,248cce977151-c0016,,,2405.05672v1.pdf,3,2.1 Sign Language Recognition and Translation
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,5,0.02843889,248cce977151-c0078,,,2405.05672v1.pdf,9,4.1.3 CSL-Daily
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,6,0.02723665,248cce977151-c0003,,,2405.05672v1.pdf,1,Abstract
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,7,0.02666667,248cce977151-c0004,,,2405.05672v1.pdf,1,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,8,0.02658451,248cce977151-c0009,,,2405.05672v1.pdf,2,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,9,0.02618229,248cce977151-c0002,,,2405.05672v1.pdf,1,Abstract
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid,10,0.02548563,248cce977151-c0133,,,2405.05672v1.pdf,15,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,1,-7.62470627,248cce977151-c0109,,,2405.05672v1.pdf,12,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,2,-8.15322399,248cce977151-c0005,,,2405.05672v1.pdf,1,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,3,-8.58940029,248cce977151-c0078,,,2405.05672v1.pdf,9,4.1.3 CSL-Daily
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,4,-8.74214935,248cce977151-c0012,,,2405.05672v1.pdf,2,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,5,-9.09154224,248cce977151-c0004,,,2405.05672v1.pdf,1,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,6,-9.49960041,248cce977151-c0111,,,2405.05672v1.pdf,13,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,7,-9.75445652,248cce977151-c0116,,,2405.05672v1.pdf,13,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,8,-9.84017563,248cce977151-c0125,,,2405.05672v1.pdf,14,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,9,-9.85715771,248cce977151-c0006,,,2405.05672v1.pdf,2,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,rerank,10,-9.86919403,248cce977151-c0013,,,2405.05672v1.pdf,2,2.1 Sign Language Recognition and Translation
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,1,-7.62470436,248cce977151-c0109,,,2405.05672v1.pdf,12,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,2,-8.15322399,248cce977151-c0005,,,2405.05672v1.pdf,1,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,3,-8.58940029,248cce977151-c0078,,,2405.05672v1.pdf,9,4.1.3 CSL-Daily
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,4,-8.74214935,248cce977151-c0012,,,2405.05672v1.pdf,2,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,5,-9.09154224,248cce977151-c0004,,,2405.05672v1.pdf,1,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,6,-9.16811180,248cce977151-c0001,,,2405.05672v1.pdf,1,Abstract
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,7,-9.16940689,248cce977151-c0007,,,2405.05672v1.pdf,2,1 Introduction
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,8,-9.49960041,248cce977151-c0111,,,2405.05672v1.pdf,13,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,9,-9.84017563,248cce977151-c0125,,,2405.05672v1.pdf,14,5 Conclusion
+8,"Does the paper explain how to perform a particular ASL sign, such as “thank you”?",2405.05672v1.pdf,unanswerable,hybrid-rerank,10,-9.85715771,248cce977151-c0006,,,2405.05672v1.pdf,2,1 Introduction

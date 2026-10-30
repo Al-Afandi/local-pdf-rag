@@ -1,0 +1,5 @@
+﻿retrieval_mode,fully_answerable_questions,partially_answerable_questions,unanswerable_questions,uncertain_questions,scored_question_count,mean_facet_recall_at_6,mrr_at_6,any_facet_found_rate_at_6,all_facets_found_rate_at_6
+dense,8,0,1,0,8,1.000000,0.566667,1.000000,1.000000
+hybrid,8,0,1,0,8,1.000000,0.875000,1.000000,1.000000
+rerank,8,0,1,0,8,1.000000,0.687500,1.000000,1.000000
+hybrid-rerank,8,0,1,0,8,1.000000,0.670833,1.000000,1.000000

@@ -1,0 +1,10 @@
+question_id,facet_id,facet_description,supporting_chunk_ids
+0,0,The usage of  keypoint streams,248cce977151-c0011
+1,0,Distinguishing SLR and SLT ,248cce977151-c0016
+2,0,The menaing of gesters,248cce977151-c0007
+2,1,The usage of gesters,248cce977151-c0011 | 248cce977151-c0042
+3,0, Fusion head’s role ,248cce977151-c0059
+4,0,Datasets usage,248cce977151-c0091 | 248cce977151-c0110
+5,0,Self-distillation weight,248cce977151-c0105
+6,0,The improvement over TwoStream-SLR,248cce977151-c0090
+7,0,Evidence for improvement,248cce977151-c0090 | 248cce977151-c0091
