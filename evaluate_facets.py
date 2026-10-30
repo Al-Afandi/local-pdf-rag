@@ -1,4 +1,4 @@
-"""Evaluate whether retrieved chunks cover the evidence facets of each question."""
+"""Evaluate retrieval coverage using alternate evidence options per facet."""
 
 from __future__ import annotations
 
@@ -17,11 +17,12 @@ RETRIEVAL_MODES = ("dense", "hybrid", "rerank", "hybrid-rerank")
 SOURCE_COVERAGE = {
     "answerable", "partially_answerable", "unanswerable", "uncertain"
 }
+OPTION_LEVELS = {"complete", "partial"}
 
 
-def _split_ids(value: str) -> list[str]:
+def _parse_ids(value: str, separator: str) -> list[str]:
     return list(dict.fromkeys(
-        item.strip() for item in re.split(r"[;|]", value) if item.strip()
+        item.strip() for item in value.split(separator) if item.strip()
     ))
 
 
@@ -73,13 +74,14 @@ def load_questions(path: Path) -> list[dict[str, str | None]]:
 def load_facets(path: Path) -> dict[str, list[dict[str, object]]]:
     if not path.is_file():
         raise ValueError(f"Facet CSV not found: {path}")
-    grouped: dict[str, list[dict[str, object]]] = defaultdict(list)
-    seen: set[tuple[str, str]] = set()
+    grouped: dict[str, dict[str, dict[str, object]]] = defaultdict(dict)
+    seen_options: set[tuple[str, str, str]] = set()
 
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
         required = {
-            "question_id", "facet_id", "facet_description", "supporting_chunk_ids"
+            "question_id", "facet_id", "facet_description", "evidence_option_id",
+            "option_level", "required_chunk_ids",
         }
         missing = required - set(reader.fieldnames or [])
         if missing:
@@ -91,34 +93,54 @@ def load_facets(path: Path) -> dict[str, list[dict[str, object]]]:
             question_id = (row.get("question_id") or "").strip()
             facet_id = (row.get("facet_id") or "").strip()
             description = (row.get("facet_description") or "").strip()
-            chunk_ids = _split_ids(row.get("supporting_chunk_ids") or "")
-            if not question_id or not facet_id or not description or not chunk_ids:
+            option_id = (row.get("evidence_option_id") or "").strip()
+            level = (row.get("option_level") or "").strip().casefold()
+            chunk_ids = _parse_ids(row.get("required_chunk_ids") or "", "&")
+            if not all((question_id, facet_id, description, option_id, chunk_ids)):
                 raise ValueError(
                     f"Facet row {row_number} needs question_id, facet_id, "
-                    "facet_description, and at least one supporting chunk ID."
+                    "description, evidence_option_id, and required chunk IDs."
                 )
-            key = (question_id, facet_id)
-            if key in seen:
+            if level not in OPTION_LEVELS:
                 raise ValueError(
-                    f"Duplicate facet_id {facet_id!r} for question {question_id!r}."
+                    f"Facet row {row_number}: option_level must be complete or partial."
                 )
-            seen.add(key)
-            grouped[question_id].append(
-                {
+            key = (question_id, facet_id, option_id)
+            if key in seen_options:
+                raise ValueError(
+                    f"Duplicate evidence option {option_id!r} for "
+                    f"{question_id}/{facet_id}."
+                )
+            seen_options.add(key)
+
+            facets = grouped[question_id]
+            if facet_id not in facets:
+                facets[facet_id] = {
                     "facet_id": facet_id,
                     "description": description,
+                    "options": [],
+                }
+            elif facets[facet_id]["description"] != description:
+                raise ValueError(
+                    f"Facet {question_id}/{facet_id} has inconsistent descriptions."
+                )
+            facets[facet_id]["options"].append(
+                {
+                    "option_id": option_id,
+                    "level": level,
                     "chunk_ids": chunk_ids,
                 }
             )
-    return grouped
+
+    return {qid: list(facets.values()) for qid, facets in grouped.items()}
 
 
 def validate_labels(
     questions: list[dict[str, str | None]],
-    facets: dict[str, list[dict[str, object]]],
+    facets_by_question: dict[str, list[dict[str, object]]],
 ) -> None:
     question_ids = {question["question_id"] for question in questions}
-    unknown_questions = set(facets) - question_ids
+    unknown_questions = set(facets_by_question) - question_ids
     if unknown_questions:
         raise ValueError(
             "Facet rows reference unknown question IDs: "
@@ -138,37 +160,72 @@ def validate_labels(
     for question in questions:
         question_id = question["question_id"]
         answerability = question["answerability"]
-        question_facets = facets.get(question_id, [])
-        if answerability in {"answerable", "partially_answerable"} and not question_facets:
-            raise ValueError(
-                f"{question_id} is {answerability} but has no evidence facets."
+        facets = facets_by_question.get(question_id, [])
+        if answerability in {"answerable", "partially_answerable"} and not facets:
+            raise ValueError(f"{question_id} is {answerability} but has no evidence facets.")
+        if answerability in {"unanswerable", "uncertain"} and facets:
+            raise ValueError(f"{question_id} is {answerability} and should have no facet rows.")
+
+        for facet in facets:
+            for option in facet["options"]:
+                for chunk_id in option["chunk_ids"]:
+                    if chunk_id not in indexed:
+                        raise ValueError(
+                            f"{question_id}/{facet['facet_id']}/{option['option_id']}: "
+                            f"chunk {chunk_id!r} is not in the current index. Check the "
+                            "ID or re-add the PDF if chunking settings changed."
+                        )
+                    document = question["document"]
+                    if document and indexed[chunk_id] != document:
+                        raise ValueError(
+                            f"{question_id}/{facet['facet_id']}: chunk {chunk_id!r} "
+                            f"belongs to {indexed[chunk_id]!r}, not {document!r}."
+                        )
+
+
+def assess_facet(
+    facet: dict[str, object], ranks: dict[str, int]
+) -> dict[str, object]:
+    complete_options: list[tuple[int, str]] = []
+    partial_options: list[tuple[int, str]] = []
+    touched_options: list[str] = []
+
+    for option in facet["options"]:
+        chunk_ids = set(option["chunk_ids"])
+        present = chunk_ids.intersection(ranks)
+        if not present:
+            continue
+        touched_options.append(str(option["option_id"]))
+        if chunk_ids.issubset(ranks):
+            ready_rank = max(ranks[chunk_id] for chunk_id in chunk_ids)
+            target = complete_options if option["level"] == "complete" else partial_options
+            target.append((ready_rank, str(option["option_id"])))
+        else:
+            partial_options.append(
+                (min(ranks[chunk_id] for chunk_id in present), str(option["option_id"]))
             )
-        if answerability in {"unanswerable", "uncertain"} and question_facets:
-            raise ValueError(
-                f"{question_id} is {answerability} and should not have facet labels."
-            )
 
-        for facet in question_facets:
-            for chunk_id in facet["chunk_ids"]:
-                if chunk_id not in indexed:
-                    raise ValueError(
-                        f"{question_id}/{facet['facet_id']}: chunk {chunk_id!r} "
-                        "is not in the current index. Check its ID or re-add the PDF "
-                        "if chunking settings changed."
-                    )
-                document = question["document"]
-                if document and indexed[chunk_id] != document:
-                    raise ValueError(
-                        f"{question_id}/{facet['facet_id']}: chunk {chunk_id!r} "
-                        f"belongs to {indexed[chunk_id]!r}, not {document!r}."
-                    )
+    if complete_options:
+        level = "complete"
+        ready_rank, option_id = min(complete_options)
+    elif partial_options:
+        level = "partial"
+        ready_rank, option_id = min(partial_options)
+    else:
+        level = "none"
+        ready_rank, option_id = None, ""
+
+    return {
+        "level": level,
+        "ready_rank": ready_rank,
+        "option_id": option_id,
+        "touched_options": touched_options,
+    }
 
 
-def _write_csv(
-    path: Path, fieldnames: list[str], rows: list[dict[str, object]]
-) -> None:
+def write_csv(path: Path, fields: list[str], rows: list[dict[str, object]]) -> None:
     with path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
 
@@ -187,66 +244,81 @@ def evaluate(
         raise ValueError("--metric-k must be between 1 and --retrieval-depth.")
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    hit_rows: list[dict[str, object]] = []
+    retrieved_rows: list[dict[str, object]] = []
     metric_rows: list[dict[str, object]] = []
-    mode_metrics: dict[str, list[dict[str, float | bool]]] = defaultdict(list)
+    mode_values: dict[str, list[dict[str, float | bool]]] = defaultdict(list)
 
     for question in questions:
         question_id = str(question["question_id"])
         question_text = str(question["question"])
         document = question["document"]
-        answerability = str(question["answerability"])
-        question_facets = facets_by_question.get(question_id, [])
-        is_scored = answerability in {"answerable", "partially_answerable"}
-        chunk_to_facets: dict[str, list[str]] = defaultdict(list)
-        for facet in question_facets:
-            for chunk_id in facet["chunk_ids"]:
-                chunk_to_facets[chunk_id].append(str(facet["facet_id"]))
+        source_status = str(question["answerability"])
+        facets = facets_by_question.get(question_id, [])
+        scored = source_status in {"answerable", "partially_answerable"}
 
         for mode in modes:
             hits = rag.retrieve_by_mode(
-                question_text,
-                top_k=retrieval_depth,
-                document_name=document,
+                question_text, top_k=retrieval_depth, document_name=document,
                 retrieval_mode=mode,
             )
-            retrieved_at_k = {hit.chunk_id for hit in hits[:metric_k]}
-            found_facets = [
-                facet for facet in question_facets
-                if retrieved_at_k.intersection(facet["chunk_ids"])
-            ]
-            facet_count = len(question_facets)
-            facets_found = len(found_facets)
-            facet_recall = facets_found / facet_count if is_scored else None
-            first_rank = min(
-                (hit.rank for hit in hits[:metric_k]
-                 if hit.chunk_id in chunk_to_facets),
-                default=None,
-            )
-            mrr = (1 / first_rank if first_rank else 0.0) if is_scored else None
-            if not is_scored:
-                coverage_status = "source_unanswerable" if answerability == "unanswerable" else "source_uncertain"
-            elif facets_found == facet_count:
-                coverage_status = "all_available_facets_found"
-            elif facets_found:
-                coverage_status = "some_available_facets_found"
+            all_ranks = {hit.chunk_id: hit.rank for hit in hits}
+            cutoff_ranks = {
+                hit.chunk_id: hit.rank for hit in hits if hit.rank <= metric_k
+            }
+            facet_results = [assess_facet(facet, cutoff_ranks) for facet in facets]
+            complete_count = sum(result["level"] == "complete" for result in facet_results)
+            partial_count = sum(result["level"] == "partial" for result in facet_results)
+            evidence_count = complete_count + partial_count
+            facet_count = len(facets)
+
+            if not scored:
+                status = "source_unanswerable" if source_status == "unanswerable" else "source_uncertain"
+            elif facet_count and complete_count == facet_count:
+                status = "all_facets_complete"
+            elif evidence_count:
+                status = "partial_evidence"
             else:
-                coverage_status = "no_available_facets_found"
+                status = "no_evidence_found"
+
+            complete_ranks: list[int] = []
+            for facet in facets:
+                option_ranks = []
+                for option in facet["options"]:
+                    ids = set(option["chunk_ids"])
+                    if option["level"] == "complete" and ids.issubset(all_ranks):
+                        option_ranks.append(max(all_ranks[chunk_id] for chunk_id in ids))
+                if option_ranks:
+                    complete_ranks.append(min(option_ranks))
+                else:
+                    complete_ranks = []
+                    break
+            sufficient_rank = max(complete_ranks) if complete_ranks else None
+            mrr_sufficient = (
+                1 / sufficient_rank
+                if sufficient_rank is not None and sufficient_rank <= metric_k
+                else 0.0
+            ) if scored else None
 
             for hit in hits:
-                matched_facets = chunk_to_facets.get(hit.chunk_id, [])
-                hit_rows.append(
+                matched: list[str] = []
+                options_here: list[str] = []
+                for facet in facets:
+                    for option in facet["options"]:
+                        if hit.chunk_id in option["chunk_ids"]:
+                            matched.append(str(facet["facet_id"]))
+                            options_here.append(str(option["option_id"]))
+                retrieved_rows.append(
                     {
                         "question_id": question_id,
                         "question": question_text,
                         "document_filter": document or "",
-                        "source_answerability": answerability,
+                        "source_answerability": source_status,
                         "retrieval_mode": mode,
                         "rank": hit.rank,
                         "score": f"{hit.score:.8f}",
                         "chunk_id": hit.chunk_id,
-                        "matched_facet_ids": " | ".join(matched_facets) if is_scored else "",
-                        "supports_any_facet": bool(matched_facets) if is_scored else "",
+                        "matched_facet_ids": " | ".join(dict.fromkeys(matched)) if scored else "",
+                        "evidence_option_ids": " | ".join(dict.fromkeys(options_here)) if scored else "",
                         "file_name": hit.file_name,
                         "page_number": hit.page_number,
                         "section": hit.section,
@@ -254,71 +326,73 @@ def evaluate(
                     }
                 )
 
+            evidence_coverage = evidence_count / facet_count if scored else ""
+            complete_facet_rate = complete_count / facet_count if scored else ""
             metric_rows.append(
                 {
                     "question_id": question_id,
                     "question": question_text,
                     "document_filter": document or "",
-                    "source_answerability": answerability,
+                    "source_answerability": source_status,
                     "retrieval_mode": mode,
-                    "facet_count": facet_count if is_scored else "",
-                    f"facets_found_at_{metric_k}": facets_found if is_scored else "",
-                    f"facet_recall_at_{metric_k}": f"{facet_recall:.6f}" if is_scored else "",
-                    "first_supporting_rank": first_rank or "",
-                    f"mrr_at_{metric_k}": f"{mrr:.6f}" if is_scored else "",
-                    f"evidence_coverage_at_{metric_k}": coverage_status,
-                    "facets_found": " | ".join(str(f["facet_id"]) for f in found_facets) if is_scored else "",
-                    "facets_not_found": " | ".join(
-                        str(facet["facet_id"]) for facet in question_facets
-                        if facet not in found_facets
-                    ) if is_scored else "",
+                    "facet_count": facet_count if scored else "",
+                    f"facets_with_evidence_at_{metric_k}": evidence_count if scored else "",
+                    f"complete_facets_at_{metric_k}": complete_count if scored else "",
+                    f"partial_facets_at_{metric_k}": partial_count if scored else "",
+                    f"facet_evidence_coverage_at_{metric_k}": f"{evidence_coverage:.6f}" if scored else "",
+                    f"complete_facet_rate_at_{metric_k}": f"{complete_facet_rate:.6f}" if scored else "",
+                    "first_sufficient_rank": sufficient_rank or "",
+                    f"mrr_sufficient_at_{metric_k}": f"{mrr_sufficient:.6f}" if scored else "",
+                    f"evidence_sufficiency_at_{metric_k}": status,
+                    "facet_results": " | ".join(
+                        f"{facet['facet_id']}:{result['level']}"
+                        for facet, result in zip(facets, facet_results)
+                    ) if scored else "",
                 }
             )
 
-            if is_scored:
-                mode_metrics[mode].append(
+            if scored:
+                mode_values[mode].append(
                     {
-                        "facet_recall": facet_recall,
-                        "mrr": mrr,
-                        "any_facet": bool(facets_found),
-                        "all_facets": facets_found == facet_count,
+                        "evidence_coverage": float(evidence_coverage),
+                        "complete_facet_rate": float(complete_facet_rate),
+                        "mrr_sufficient": float(mrr_sufficient),
+                        "sufficient": status == "all_facets_complete",
+                        "partial": status == "partial_evidence",
+                        "none": status == "no_evidence_found",
                     }
                 )
-                print(
-                    f"{question_id} | {mode:14} | "
-                    f"facet coverage@{metric_k}={facets_found}/{facet_count} | "
-                    f"{coverage_status}"
-                )
+                print(f"{question_id} | {mode:14} | {status} | "
+                      f"complete facets {complete_count}/{facet_count}; "
+                      f"partial facets {partial_count}/{facet_count}")
             else:
-                print(f"{question_id} | {mode:14} | {coverage_status}; ranking metrics skipped")
+                print(f"{question_id} | {mode:14} | {status}; ranking metrics skipped")
 
-    _write_csv(
+    write_csv(
         output_dir / "retrieved_facets.csv",
-        [
-            "question_id", "question", "document_filter", "source_answerability",
-            "retrieval_mode", "rank", "score", "chunk_id", "matched_facet_ids",
-            "supports_any_facet", "file_name", "page_number", "section", "text",
-        ],
-        hit_rows,
+        ["question_id", "question", "document_filter", "source_answerability",
+         "retrieval_mode", "rank", "score", "chunk_id", "matched_facet_ids",
+         "evidence_option_ids", "file_name", "page_number", "section", "text"],
+        retrieved_rows,
     )
-    _write_csv(
+    write_csv(
         output_dir / "facet_question_metrics.csv",
-        [
-            "question_id", "question", "document_filter", "source_answerability",
-            "retrieval_mode", "facet_count", f"facets_found_at_{metric_k}",
-            f"facet_recall_at_{metric_k}", "first_supporting_rank", f"mrr_at_{metric_k}",
-            f"evidence_coverage_at_{metric_k}", "facets_found", "facets_not_found",
-        ],
+        ["question_id", "question", "document_filter", "source_answerability",
+         "retrieval_mode", "facet_count", f"facets_with_evidence_at_{metric_k}",
+         f"complete_facets_at_{metric_k}", f"partial_facets_at_{metric_k}",
+         f"facet_evidence_coverage_at_{metric_k}", f"complete_facet_rate_at_{metric_k}",
+         "first_sufficient_rank", f"mrr_sufficient_at_{metric_k}",
+         f"evidence_sufficiency_at_{metric_k}", "facet_results"],
         metric_rows,
     )
 
     source_counts = {
-        label: sum(str(question["answerability"]) == label for question in questions)
+        label: sum(question["answerability"] == label for question in questions)
         for label in SOURCE_COVERAGE
     }
     summary_rows: list[dict[str, object]] = []
     for mode in modes:
-        values = mode_metrics[mode]
+        values = mode_values[mode]
         count = len(values)
         summary_rows.append(
             {
@@ -328,39 +402,47 @@ def evaluate(
                 "unanswerable_questions": source_counts["unanswerable"],
                 "uncertain_questions": source_counts["uncertain"],
                 "scored_question_count": count,
-                f"mean_facet_recall_at_{metric_k}": f"{sum(v['facet_recall'] for v in values) / count:.6f}" if count else "",
-                f"mrr_at_{metric_k}": f"{sum(v['mrr'] for v in values) / count:.6f}" if count else "",
-                f"any_facet_found_rate_at_{metric_k}": f"{sum(v['any_facet'] for v in values) / count:.6f}" if count else "",
-                f"all_facets_found_rate_at_{metric_k}": f"{sum(v['all_facets'] for v in values) / count:.6f}" if count else "",
+                f"mean_facet_evidence_coverage_at_{metric_k}": f"{sum(v['evidence_coverage'] for v in values) / count:.6f}" if count else "",
+                f"mean_complete_facet_rate_at_{metric_k}": f"{sum(v['complete_facet_rate'] for v in values) / count:.6f}" if count else "",
+                f"mrr_sufficient_at_{metric_k}": f"{sum(v['mrr_sufficient'] for v in values) / count:.6f}" if count else "",
+                f"sufficient_answer_rate_at_{metric_k}": f"{sum(v['sufficient'] for v in values) / count:.6f}" if count else "",
+                f"partial_evidence_rate_at_{metric_k}": f"{sum(v['partial'] for v in values) / count:.6f}" if count else "",
+                f"no_evidence_rate_at_{metric_k}": f"{sum(v['none'] for v in values) / count:.6f}" if count else "",
             }
         )
-    _write_csv(
+    write_csv(
         output_dir / "facet_mode_summary.csv",
-        [
-            "retrieval_mode", "fully_answerable_questions", "partially_answerable_questions",
-            "unanswerable_questions", "uncertain_questions", "scored_question_count",
-            f"mean_facet_recall_at_{metric_k}", f"mrr_at_{metric_k}",
-            f"any_facet_found_rate_at_{metric_k}", f"all_facets_found_rate_at_{metric_k}",
-        ],
+        ["retrieval_mode", "fully_answerable_questions", "partially_answerable_questions",
+         "unanswerable_questions", "uncertain_questions", "scored_question_count",
+         f"mean_facet_evidence_coverage_at_{metric_k}",
+         f"mean_complete_facet_rate_at_{metric_k}", f"mrr_sufficient_at_{metric_k}",
+         f"sufficient_answer_rate_at_{metric_k}", f"partial_evidence_rate_at_{metric_k}",
+         f"no_evidence_rate_at_{metric_k}"],
         summary_rows,
     )
-    print(f"\nSaved facet-level results in: {output_dir.resolve()}")
+    print(f"\nSaved evidence-option results in: {output_dir.resolve()}")
+
+
+def write_csv(path: Path, fields: list[str], rows: list[dict[str, object]]) -> None:
+    with path.open("w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Evaluate retrieval coverage of answer evidence facets."
+        description="Evaluate retrieval coverage of complete and partial evidence options."
     )
-    parser.add_argument("benchmark", type=Path, help="CSV containing question IDs and source answerability")
-    parser.add_argument("facets", type=Path, help="CSV mapping each question facet to supporting chunk IDs")
+    parser.add_argument("benchmark", type=Path)
+    parser.add_argument("facets", type=Path)
     parser.add_argument("--retrieval-depth", type=int, default=10)
     parser.add_argument("--metric-k", type=int, default=6)
     parser.add_argument(
-        "--modes", nargs="+", choices=RETRIEVAL_MODES,
-        default=list(RETRIEVAL_MODES),
+        "--modes", nargs="+", choices=RETRIEVAL_MODES, default=list(RETRIEVAL_MODES)
     )
     parser.add_argument(
-        "--output-dir", type=Path, default=Path("evaluation_facet_results")
+        "--output-dir", type=Path, default=Path("evaluation_option_results")
     )
     return parser
 

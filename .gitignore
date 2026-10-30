@@ -23,3 +23,5 @@ venv/
 evaluation_results/
 
 evaluation_facet_results/
+
+evaluation_option_results/

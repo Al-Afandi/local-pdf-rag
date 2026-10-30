@@ -1,1 +1,1 @@
-question_id,facet_id,facet_description,supporting_chunk_ids
+question_id,facet_id,facet_description,evidence_option_id,option_level,required_chunk_ids

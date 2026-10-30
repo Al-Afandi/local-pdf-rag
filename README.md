@@ -173,19 +173,24 @@ row per answerable question in `benchmark.csv`; set `answerability` to one of:
 `answerable`, `partially_answerable`, `unanswerable`, or `uncertain`.
 
 Create `benchmark_facets.csv` from `benchmark_facets_template.csv`, with one row
-per evidence facet:
+per evidence option for a facet:
 
 - `question_id`: the matching ID from `benchmark.csv`.
 - `facet_id`: a short label such as `F1` or `F2`.
 - `facet_description`: one distinct fact or answer component the question asks
   for and that the selected PDF actually supports.
-- `supporting_chunk_ids`: every alternative chunk that supports this same
-  facet, separated by `|`.
+- `evidence_option_id`: a unique label for this way of supporting the facet.
+- `option_level`: `complete` if this option fully establishes the facet, or
+  `partial` if it only supports part of it.
+- `required_chunk_ids`: chunks needed together for this option, separated by
+  `&`.
 
-Put complementary answer components on separate rows. If either of two chunks
-can support the same component, put both IDs on one row. For example, a question
-asking for two distinct findings should have two facets; a second passage that
-repeats one finding belongs as another acceptable ID on that finding's row.
+Put complementary answer components on separate facet rows. Put alternative
+ways of supporting one facet on separate option rows. Every chunk ID on one
+option row is required together; different option rows for a facet are
+alternatives. For example, if chunk A alone is sufficient, or chunks B and C
+are sufficient together, record two complete options: one containing A and one
+containing `B&C`. A partial passage can be recorded as its own `partial` option.
 
 For a `partially_answerable` question, define facets only for the evidence the
 paper provides. This lets retrieval be evaluated for coverage of available
@@ -200,12 +205,13 @@ python evaluate_facets.py benchmark.csv benchmark_facets.csv --retrieval-depth 1
 ```
 
 The facet evaluator saves `retrieved_facets.csv`, `facet_question_metrics.csv`,
-and `facet_mode_summary.csv` under `evaluation_facet_results/`. Facet Recall@6
-is the fraction of defined evidence facets with at least one supporting chunk
-in the top 6. The evidence coverage result is `all_available_facets_found`,
-`some_available_facets_found`, or `no_available_facets_found`. The first means
-retrieval found every facet the PDF supports; for a partially answerable source,
-it does not mean the PDF contained the complete answer.
+and `facet_mode_summary.csv` under `evaluation_option_results/`, leaving the
+previous facet run intact. It distinguishes facets with any evidence from
+facets with a complete option satisfied. `evidence_sufficiency_at_6` reports
+`all_facets_complete`, `partial_evidence`, or `no_evidence_found`. A partial
+option—or only part of a multi-chunk option—counts as partial evidence. For a
+partially answerable source, all facets complete means all evidence available
+in that PDF was retrieved; it does not mean the PDF contained the full answer.
 
 ## What this version deliberately supports
 
