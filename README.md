@@ -165,6 +165,48 @@ question appeared in the first 6. These metrics depend on labeling all relevant
 evidence chunks, so include more than just the chunk returned by one particular
 run.
 
+## Evaluate evidence facets and partial retrieval
+
+For questions where several pieces of evidence are needed, or where multiple
+chunks are alternatives for the same point, use `evaluate_facets.py`. Keep one
+row per answerable question in `benchmark.csv`; set `answerability` to one of:
+`answerable`, `partially_answerable`, `unanswerable`, or `uncertain`.
+
+Create `benchmark_facets.csv` from `benchmark_facets_template.csv`, with one row
+per evidence facet:
+
+- `question_id`: the matching ID from `benchmark.csv`.
+- `facet_id`: a short label such as `F1` or `F2`.
+- `facet_description`: one distinct fact or answer component the question asks
+  for and that the selected PDF actually supports.
+- `supporting_chunk_ids`: every alternative chunk that supports this same
+  facet, separated by `|`.
+
+Put complementary answer components on separate rows. If either of two chunks
+can support the same component, put both IDs on one row. For example, a question
+asking for two distinct findings should have two facets; a second passage that
+repeats one finding belongs as another acceptable ID on that finding's row.
+
+For a `partially_answerable` question, define facets only for the evidence the
+paper provides. This lets retrieval be evaluated for coverage of available
+evidence without implying that the PDF supports the whole requested answer.
+`unanswerable` and `uncertain` questions have no facet rows and are excluded
+from retrieval coverage averages.
+
+Run the facet evaluation with:
+
+```powershell
+python evaluate_facets.py benchmark.csv benchmark_facets.csv --retrieval-depth 10 --metric-k 6
+```
+
+The facet evaluator saves `retrieved_facets.csv`, `facet_question_metrics.csv`,
+and `facet_mode_summary.csv` under `evaluation_facet_results/`. Facet Recall@6
+is the fraction of defined evidence facets with at least one supporting chunk
+in the top 6. The evidence coverage result is `all_available_facets_found`,
+`some_available_facets_found`, or `no_available_facets_found`. The first means
+retrieval found every facet the PDF supports; for a partially answerable source,
+it does not mean the PDF contained the complete answer.
+
 ## What this version deliberately supports
 
 - Text-based PDFs that contain selectable text. OCR for scanned PDFs is not

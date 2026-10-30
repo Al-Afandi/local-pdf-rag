@@ -21,3 +21,5 @@ venv/
 .DS_Store
 
 evaluation_results/
+
+evaluation_facet_results/
