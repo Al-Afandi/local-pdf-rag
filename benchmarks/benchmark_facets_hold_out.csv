@@ -1,0 +1,23 @@
+question_id,facet_id,facet_description,evidence_option_id,option_level,required_chunk_ids
+0,0,The four keypoint streams,option1,complete,248cce977151-c0096
+1,0,Self-distillation weight,option1,complete,248cce977151-c0105
+2,0,keypoint augmentations,option1,complete,248cce977151-c0095
+3,0,Explain unified objective,option1,complete,55ea931127af-c0048
+3,0,Explain unified objective,partial1,partial,55ea931127af-c0004
+4,0,Explain PGF ,option1,complete,55ea931127af-c0051
+4,1,Gate desciption,option1,complete,55ea931127af-c0056
+5,0,sampling percentage,option1,complete,55ea931127af-c0095
+5,1,score-aware sampling,option1,complete,55ea931127af-c0058
+5,1,score-aware sampling,partial1,partial,55ea931127af-c0055
+5,1,score-aware sampling,partial2,partial,55ea931127af-c0056
+6,0,Dataset creation,option1,complete,55ea931127af-c0038
+6,1,Dataset scale,option1,complete,55ea931127af-c0039
+6,1,Dataset scale,partial1,partial,55ea931127af-c0037
+6,1,Dataset scale,partial2,partial,55ea931127af-c0097
+6,1,Dataset scale,partial3,partial,55ea931127af-c0011
+7,0, selected keypoints,option1,complete,55ea931127af-c0134
+7,0, selected keypoints,option2,complete,55ea931127af-c0041
+8,0,evaluation metric for each task,option1,complete,55ea931127af-c0078
+9,0,improve BLEU-4 over C2RL,option1,complete,55ea931127af-c0087
+10,0,sampling probability ,option1,complete,55ea931127af-c0095
+10,1,training hours saved,partial1,partial,55ea931127af-c0095

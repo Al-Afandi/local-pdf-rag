@@ -62,7 +62,7 @@ RERANK_MAX_LENGTH = 512
 
 # Ollama runs locally and must already have the selected model available.
 OLLAMA_BASE_URL = "http://localhost:11434"
-OLLAMA_MODEL = "llama4:maverick"  # Model currently installed on the lab4 workstation.
+OLLAMA_MODEL = "qwen3:8b"  # Model currently installed on the lab4 workstation.
 OLLAMA_TIMEOUT_SECONDS = 300
 
 # Text blocks wider than this fraction of the page are treated as full-width
