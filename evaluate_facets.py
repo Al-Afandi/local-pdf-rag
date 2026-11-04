@@ -442,7 +442,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--modes", nargs="+", choices=RETRIEVAL_MODES, default=list(RETRIEVAL_MODES)
     )
     parser.add_argument(
-        "--output-dir", type=Path, default=Path("evaluation_option_results")
+        "--output-dir", type=Path, default=Path("evaluation_retrieval_facets_results")
     )
     return parser
 

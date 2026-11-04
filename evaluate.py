@@ -310,8 +310,8 @@ def build_parser() -> argparse.ArgumentParser:
         help="retrieval modes to compare (default: all four; rerank modes may download a model)",
     )
     parser.add_argument(
-        "--output-dir", type=Path, default=Path("evaluation_results"),
-        help="folder for CSV outputs (default: evaluation_results)",
+        "--output-dir", type=Path, default=Path("evaluation_retrieval_results"),
+        help="folder for CSV outputs (default: evaluation_retrieval_results)",
     )
     return parser
 

@@ -2,10 +2,13 @@ question_id,facet_id,facet_description,evidence_option_id,option_level,required_
 0,0,The four keypoint streams,option1,complete,248cce977151-c0011
 0,0,The four keypoint streams,option2,complete,248cce977151-c0096
 1,0,Distinguishing SLR and SLT,option1,complete,248cce977151-c0016
+1,0,Distinguishing SLR and SLT,partial1,partial,248cce977151-c0065
 2,0,The meaning of gestures,option1,complete,248cce977151-c0007
 2,1,The model's use of gestures,option1,complete,248cce977151-c0011
 2,1,The model's use of gestures,option2,complete,248cce977151-c0042
+2,1,The model's use of gestures,partial1,partial,248cce977151-c0109
 3,0,Fusion head role,option1,complete,248cce977151-c0059
+3,0,Fusion head role,partial1,partial,248cce977151-c0097
 4,0,Complete dataset list,conclusion,complete,248cce977151-c0110
 4,0,Complete dataset list,slr_comparison,complete,248cce977151-c0081
 4,0,Complete dataset list,partial_slt_comparison,partial,248cce977151-c0091
@@ -14,8 +17,8 @@ question_id,facet_id,facet_description,evidence_option_id,option_level,required_
 7,0,Comparison with other methods,comp_option1,complete,248cce977151-c0090
 7,0,Comparison with other methods,comp_option2,complete,248cce977151-c0091
 7,0,Comparison with other methods,comp_option3,complete,248cce977151-c0092
-7,0,Comparison with other methods,comp_partial_1 ,partial,248cce977151-c0012
+7,0,Comparison with other methods,comp_partial_1,partial,248cce977151-c0012
 7,1,Ablation or component analysis,ablation_option1,complete,248cce977151-c0096
 7,1,Ablation or component analysis,ablation_option2,complete,248cce977151-c0097
-7,1,Ablation or component analysis,ablation_option4,complete,248cce977151-c0094
-7,0,Comparison with other methods,ablation_partial_1 ,partial,248cce977151-c0098
+7,1,Ablation or component analysis,ablation_option3,complete,248cce977151-c0094
+7,0,Comparison with other methods,ablation_partial_1,partial,248cce977151-c0098

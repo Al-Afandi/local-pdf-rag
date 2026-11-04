@@ -1,0 +1,5 @@
+﻿retrieval_mode,fully_answerable_questions,partially_answerable_questions,unanswerable_questions,uncertain_questions,scored_question_count,mean_facet_evidence_coverage_at_6,mean_complete_facet_rate_at_6,mrr_sufficient_at_6,sufficient_answer_rate_at_6,partial_evidence_rate_at_6,no_evidence_rate_at_6
+dense,10,1,1,0,11,0.818182,0.727273,0.462121,0.636364,0.272727,0.090909
+hybrid,10,1,1,0,11,0.909091,0.863636,0.545455,0.727273,0.272727,0.000000
+rerank,10,1,1,0,11,0.954545,0.909091,0.700000,0.818182,0.181818,0.000000
+hybrid-rerank,10,1,1,0,11,0.954545,0.909091,0.700000,0.818182,0.181818,0.000000
