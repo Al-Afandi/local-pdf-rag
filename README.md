@@ -139,7 +139,7 @@ re-add the PDF and update labels to the new chunk IDs before evaluating.
 Run the benchmark with:
 
 ```powershell
-python evaluate.py benchmark.csv --retrieval-depth 10 --metric-k 6
+python evaluate.py benchmarks/benchmark.csv --retrieval-depth 10 --metric-k 6
 ```
 
 The evaluator compares dense, hybrid, rerank, and hybrid-rerank by default. The
@@ -147,7 +147,7 @@ reranker may download its model on first use. To run only the two fast baseline
 modes, add `--modes dense hybrid`. This evaluates retrieval only and does not
 call Ollama.
 
-It writes three files under `evaluation_results/`:
+It writes three files under `evaluation_retrieval_results/`:
 
 - `retrieved_chunks.csv`: every returned chunk through rank 10, with its text,
   score, rank, and whether its ID is marked relevant.
@@ -201,17 +201,51 @@ from retrieval coverage averages.
 Run the facet evaluation with:
 
 ```powershell
-python evaluate_facets.py benchmark.csv benchmark_facets.csv --retrieval-depth 10 --metric-k 6
+python evaluate_facets.py benchmarks/benchmark.csv benchmarks/benchmark_facets.csv --retrieval-depth 10 --metric-k 6
 ```
 
 The facet evaluator saves `retrieved_facets.csv`, `facet_question_metrics.csv`,
-and `facet_mode_summary.csv` under `evaluation_option_results/`, leaving the
+and `facet_mode_summary.csv` under `evaluation_retrieval_facets_results/`, leaving the
 previous facet run intact. It distinguishes facets with any evidence from
 facets with a complete option satisfied. `evidence_sufficiency_at_6` reports
 `all_facets_complete`, `partial_evidence`, or `no_evidence_found`. A partial
 option—or only part of a multi-chunk option—counts as partial evidence. For a
 partially answerable source, all facets complete means all evidence available
 in that PDF was retrieved; it does not mean the PDF contained the full answer.
+
+## Evaluate answer generation
+
+Run `evaluate_generation.py` on the same question CSV to save answers and review
+ratings. By default, it retrieves the selected top-k passages and sends them to
+Ollama:
+
+```powershell
+python evaluate_generation.py benchmarks/benchmark.csv `
+  --evidence-source retrieved-evidence `
+  --retrieval-modes hybrid `
+  --top-k 6 `
+  --output evaluation_generation_results/dev_hybrid_retrieved.csv
+```
+
+To test generation with benchmark-labeled evidence, use `curated-evidence`:
+
+```powershell
+python evaluate_generation.py benchmarks/benchmark.csv `
+  --evidence-source curated-evidence `
+  --output evaluation_generation_results/dev_curated.csv
+```
+
+Curated mode loads every ID in `relevant_chunk_ids`, in the order listed in the
+CSV, and passes those passages directly to the model. It requires those IDs to
+exist in the current SQLite index and to belong to the selected document. It
+does not apply retrieval mode or top-k. Unanswerable or uncertain questions with
+no labeled IDs are sent with an empty evidence context.
+
+Each run creates two files: the answer file with the question, settings, full
+context, answer, and blank human-rating columns; and a companion `_citations.csv`
+with one row per cited source, its passage, and blank citation-review columns.
+The evaluator maps each generated `[S#]` to the passage supplied under that
+label. Human review still determines whether that passage supports the claim.
 
 ## What this version deliberately supports
 
