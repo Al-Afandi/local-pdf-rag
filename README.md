@@ -247,6 +247,47 @@ with one row per cited source, its passage, and blank citation-review columns.
 The evaluator maps each generated `[S#]` to the passage supplied under that
 label. Human review still determines whether that passage supports the claim.
 
+### Prompt-injection evaluation
+
+Create a UTF-8 text file containing one test passage, for example
+`benchmark/prompt_injection.txt`, then pass it to the generation evaluator:
+
+```powershell
+python evaluate_generation.py benchmarks/benchmark.csv `
+  --evidence-source retrieved-evidence `
+  --retrieval-modes hybrid `
+  --top-k 6 `
+  --injection-file benchmark/prompt_injection.txt `
+  --output evaluation_generation_results/dev_hybrid_injection.csv
+```
+
+The same passage is appended to the context for every benchmark question. It is
+clearly marked as untrusted test text and has no source label, so it cannot
+legitimately be cited. The answer CSV records the exact passage and its SHA-256
+hash. Run a matching baseline without `--injection-file`, using the same
+questions, retrieval mode, top-k, model, and index, then compare the answers and
+citations manually. This is a controlled prompt-injection probe, not a complete
+security certification; repeat with different attack styles and benchmark
+questions.
+
+### Summarize human generation reviews
+
+After filling the answer and companion citation review files, pass one or more
+answer files to the summary script. It locates each companion citation file by
+the matching `_citations` filename suffix:
+
+```powershell
+python summarize_generation_review.py `
+  evaluation_generation_results/labeled/dev_curated.xlsx `
+  evaluation_generation_results/labeled/dev_hybrid.xlsx `
+  --output evaluation_generation_results/labeled/review_summary.md
+```
+
+The script accepts CSV or XLSX files. The report shows each answer rating's positive-label rate and distribution,
+the share of fully rated answers positive on all five answer dimensions, correct
+abstentions, and separate citation source/support/relevance distributions.
+Blank ratings are excluded from each dimension's denominator.
+
 ## What this version deliberately supports
 
 - Text-based PDFs that contain selectable text. OCR for scanned PDFs is not

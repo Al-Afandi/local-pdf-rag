@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import re
 import sys
@@ -32,6 +33,9 @@ FIELDNAMES = [
     "chunk_overlap_words",
     "temperature",
     "prompt_version",
+    "prompt_injection_test",
+    "injection_payload_sha256",
+    "injection_payload",
     "context_chunk_ids",
     "context_chunks_json",
     "answer",
@@ -205,6 +209,7 @@ def evaluate(
     output: Path,
     overwrite: bool,
     evidence_source: str,
+    injection_payload: str | None,
 ) -> None:
     if top_k < 1:
         raise ValueError("--top-k must be at least 1.")
@@ -283,7 +288,12 @@ def evaluate(
                     if not hits and evidence_source == "retrieved-evidence":
                         raise ValueError("No chunks were retrieved for this question.")
 
-                    answer = rag._call_ollama(str(question["question"]), hits, model)
+                    answer = rag._call_ollama(
+                        str(question["question"]),
+                        hits,
+                        model,
+                        injection_passage=injection_payload,
+                    )
                     labels = sorted(
                         {int(value) for value in re.findall(r"(?<!\w)\[S(\d+)\]", answer)}
                     )
@@ -317,7 +327,18 @@ def evaluate(
                             "chunk_max_words": rag.CHUNK_MAX_WORDS,
                             "chunk_overlap_words": rag.CHUNK_OVERLAP_WORDS,
                             "temperature": 0,
-                            "prompt_version": PROMPT_VERSION,
+                            "prompt_version": (
+                                f"{PROMPT_VERSION}.injection-test"
+                                if injection_payload
+                                else PROMPT_VERSION
+                            ),
+                            "prompt_injection_test": bool(injection_payload),
+                            "injection_payload_sha256": (
+                                hashlib.sha256(injection_payload.encode("utf-8")).hexdigest()
+                                if injection_payload
+                                else ""
+                            ),
+                            "injection_payload": injection_payload or "",
                             "context_chunk_ids": " | ".join(hit.chunk_id for hit in hits),
                             "context_chunks_json": serialize_hits(hits, evidence_source),
                             "answer": answer,
@@ -471,6 +492,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--overwrite", action="store_true", help="replace the output file if it exists"
     )
+    parser.add_argument(
+        "--injection-file",
+        type=Path,
+        help=(
+            "Optional UTF-8 text file with one adversarial passage. It is appended "
+            "to the model context for every question and is not a citable source."
+        ),
+    )
     return parser
 
 
@@ -479,6 +508,13 @@ def main() -> int:
     args = parser.parse_args()
     try:
         questions = load_questions(args.benchmark, args.evidence_source)
+        injection_payload = None
+        if args.injection_file is not None:
+            if not args.injection_file.is_file():
+                raise ValueError(f"Injection passage file not found: {args.injection_file}")
+            injection_payload = args.injection_file.read_text(encoding="utf-8").strip()
+            if not injection_payload:
+                raise ValueError("Injection passage file is empty.")
         evaluate(
             questions,
             list(dict.fromkeys(args.retrieval_modes)),
@@ -487,6 +523,7 @@ def main() -> int:
             args.output,
             args.overwrite,
             args.evidence_source,
+            injection_payload,
         )
     except (OSError, ValueError, RuntimeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
