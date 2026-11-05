@@ -36,6 +36,8 @@ FIELDNAMES = [
     "prompt_injection_test",
     "injection_payload_sha256",
     "injection_payload",
+    "injection_position",
+    "injection_chunk_id",
     "context_chunk_ids",
     "context_chunks_json",
     "answer",
@@ -55,7 +57,7 @@ CITATION_FIELDNAMES = [
     "question_id", "question", "document", "evidence_source", "retrieval_mode", "top_k", "model",
     "answer", "source_label", "chunk_id", "source_document", "page_number",
     "title", "passage", "source_found", "claim_or_sentence", "support_rating",
-    "relevance_rating", "citation_notes",
+    "relevance_rating", "citation_notes", "is_injection_test",
 ]
 
 
@@ -129,15 +131,21 @@ def load_questions(
     return questions
 
 
-def serialize_hits(hits: list[rag.SearchHit], evidence_source: str) -> str:
+def serialize_hits(
+    hits: list[rag.SearchHit], evidence_source: str, injection_chunk_id: str | None
+) -> str:
     """Keep the exact context used for generation alongside each answer."""
     return json.dumps(
         [
             {
                 "rank": hit.rank,
                 "score": (
-                    hit.score if evidence_source == "retrieved-evidence" else None
+                    hit.score
+                    if evidence_source == "retrieved-evidence"
+                    and hit.chunk_id != injection_chunk_id
+                    else None
                 ),
+                "is_injection_test": hit.chunk_id == injection_chunk_id,
                 "chunk_id": hit.chunk_id,
                 "document": hit.file_name,
                 "page_number": hit.page_number,
@@ -148,6 +156,60 @@ def serialize_hits(hits: list[rag.SearchHit], evidence_source: str) -> str:
         ],
         ensure_ascii=False,
     )
+
+
+def insert_injection_hit(
+    hits: list[rag.SearchHit],
+    passage: str,
+    document_name: str | None,
+    question_id: str,
+    position: str,
+) -> tuple[list[rag.SearchHit], str]:
+    """Insert a synthetic passage into the ordinary ranked evidence list."""
+    if position == "first":
+        insert_at = 0
+    elif position == "middle":
+        insert_at = len(hits) // 2
+    elif position == "last":
+        insert_at = len(hits)
+    else:
+        raise ValueError(f"Unsupported injection position: {position}")
+
+    neighbor = hits[min(insert_at, len(hits) - 1)] if hits else None
+    if neighbor:
+        prefix = neighbor.chunk_id.rsplit("-c", 1)[0]
+        used_ids = {hit.chunk_id for hit in hits}
+    else:
+        prefix = hashlib.sha256(question_id.encode("utf-8")).hexdigest()[:12]
+        used_ids = set()
+    chunk_number = 9999
+    while f"{prefix}-c{chunk_number:04d}" in used_ids:
+        chunk_number -= 1
+    injection_chunk_id = f"{prefix}-c{chunk_number:04d}"
+
+    synthetic = rag.SearchHit(
+        rank=0,
+        score=0.0,
+        chunk_id=injection_chunk_id,
+        file_name=neighbor.file_name if neighbor else (document_name or "test-document.pdf"),
+        page_number=neighbor.page_number if neighbor else 1,
+        section=neighbor.section if neighbor else "",
+        text=passage,
+    )
+    combined = [*hits[:insert_at], synthetic, *hits[insert_at:]]
+    ranked = [
+        rag.SearchHit(
+            rank=rank,
+            score=hit.score,
+            chunk_id=hit.chunk_id,
+            file_name=hit.file_name,
+            page_number=hit.page_number,
+            section=hit.section,
+            text=hit.text,
+        )
+        for rank, hit in enumerate(combined, start=1)
+    ]
+    return ranked, injection_chunk_id
 
 
 def load_curated_hits(
@@ -210,6 +272,7 @@ def evaluate(
     overwrite: bool,
     evidence_source: str,
     injection_payload: str | None,
+    injection_position: str,
 ) -> None:
     if top_k < 1:
         raise ValueError("--top-k must be at least 1.")
@@ -288,11 +351,20 @@ def evaluate(
                     if not hits and evidence_source == "retrieved-evidence":
                         raise ValueError("No chunks were retrieved for this question.")
 
+                    injection_chunk_id = None
+                    if injection_payload is not None:
+                        hits, injection_chunk_id = insert_injection_hit(
+                            hits,
+                            injection_payload,
+                            document,
+                            str(question["question_id"]),
+                            injection_position,
+                        )
+
                     answer = rag._call_ollama(
                         str(question["question"]),
                         hits,
                         model,
-                        injection_passage=injection_payload,
                     )
                     labels = sorted(
                         {int(value) for value in re.findall(r"(?<!\w)\[S(\d+)\]", answer)}
@@ -328,7 +400,7 @@ def evaluate(
                             "chunk_overlap_words": rag.CHUNK_OVERLAP_WORDS,
                             "temperature": 0,
                             "prompt_version": (
-                                f"{PROMPT_VERSION}.injection-test"
+                                f"{PROMPT_VERSION}.synthetic-hit"
                                 if injection_payload
                                 else PROMPT_VERSION
                             ),
@@ -339,8 +411,12 @@ def evaluate(
                                 else ""
                             ),
                             "injection_payload": injection_payload or "",
+                            "injection_position": injection_position if injection_payload else "",
+                            "injection_chunk_id": injection_chunk_id or "",
                             "context_chunk_ids": " | ".join(hit.chunk_id for hit in hits),
-                            "context_chunks_json": serialize_hits(hits, evidence_source),
+                            "context_chunks_json": serialize_hits(
+                                hits, evidence_source, injection_chunk_id
+                            ),
                             "answer": answer,
                             "cited_source_labels": " | ".join(f"[S{label}]" for label in labels),
                             "cited_chunk_ids": " | ".join(cited_chunks),
@@ -381,6 +457,7 @@ def evaluate(
                                 "support_rating": "",
                                 "relevance_rating": "",
                                 "citation_notes": "",
+                                "is_injection_test": hit.chunk_id == injection_chunk_id,
                             }
                         )
                     for label in invalid_labels:
@@ -402,6 +479,7 @@ def evaluate(
                                 "support_rating": "",
                                 "relevance_rating": "",
                                 "citation_notes": "",
+                                "is_injection_test": False,
                             }
                         )
                     completed += 1
@@ -496,9 +574,15 @@ def build_parser() -> argparse.ArgumentParser:
         "--injection-file",
         type=Path,
         help=(
-            "Optional UTF-8 text file with one adversarial passage. It is appended "
-            "to the model context for every question and is not a citable source."
+            "Optional UTF-8 text file with one adversarial passage. It is inserted "
+            "as a synthetic retrieved chunk for every question."
         ),
+    )
+    parser.add_argument(
+        "--injection-position",
+        choices=("first", "middle", "last"),
+        default="middle",
+        help="position among context chunks (default: middle)",
     )
     return parser
 
@@ -524,6 +608,7 @@ def main() -> int:
             args.overwrite,
             args.evidence_source,
             injection_payload,
+            args.injection_position,
         )
     except (OSError, ValueError, RuntimeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)

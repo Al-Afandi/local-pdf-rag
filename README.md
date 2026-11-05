@@ -258,17 +258,46 @@ python evaluate_generation.py benchmarks/benchmark.csv `
   --retrieval-modes hybrid `
   --top-k 6 `
   --injection-file benchmark/prompt_injection.txt `
+  --injection-position middle `
   --output evaluation_generation_results/dev_hybrid_injection.csv
 ```
 
-The same passage is appended to the context for every benchmark question. It is
-clearly marked as untrusted test text and has no source label, so it cannot
-legitimately be cited. The answer CSV records the exact passage and its SHA-256
-hash. Run a matching baseline without `--injection-file`, using the same
-questions, retrieval mode, top-k, model, and index, then compare the answers and
-citations manually. This is a controlled prompt-injection probe, not a complete
-security certification; repeat with different attack styles and benchmark
-questions.
+The same passage is added to the ranked context for every benchmark question as
+an ordinary synthetic chunk. Choose `first`, `middle`, or `last` to test its
+rank. This adds one context chunk on top of the retrieved top-k. The model sees
+the synthetic chunk through the same formatting and citation scheme as the
+real chunks; the output files mark its fake chunk ID so its influence can be
+reviewed. The passage is not added to SQLite or FAISS, so this isolates
+generation behavior and does not test whether retrieval would discover a
+poisoned document. For that end-to-end test, add the poisoned text to a
+separate test PDF/index and see whether normal retrieval returns it.
+
+Run a matching baseline without `--injection-file`, using the same questions,
+retrieval mode, top-k, model, and index, then compare the answers and citations.
+Repeat with different attacks and positions. This is a controlled prompt-
+injection probe, not a complete security assessment.
+
+## LLM judge for generation review
+
+The judge reads a generation output CSV, the exact passages supplied to the
+answering model, and optionally the benchmark facet descriptions. It creates
+one answer-level judge CSV and a companion citation-level CSV. If human review
+files are supplied, it copies their ratings into side-by-side columns and adds
+exact-match indicators. The judge uses the same rating categories as human
+review; it does not replace human review or provide an independent gold answer.
+
+```bash
+python judge_generation.py evaluation_generation_results/dev_hybrid.csv \
+  --facets benchmarks/benchmark_facets.csv \
+  --human-answers evaluation_generation_results/labeled/dev_hybrid.xlsx \
+  --human-citations evaluation_generation_results/labeled/dev_hybrid_citations.xlsx \
+  --judge-model qwen3:8b \
+  --output evaluation_generation_results/judge_outputs/dev_hybrid_judge.csv
+```
+
+The judge makes one Ollama request per answer row. A different judge model can
+reduce self-review bias when available. Review disagreements manually, since
+the judge can miss errors or be influenced by the same passages it is grading.
 
 ### Summarize human generation reviews
 
