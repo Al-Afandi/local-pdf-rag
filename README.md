@@ -285,19 +285,28 @@ one answer-level judge CSV and a companion citation-level CSV. If human review
 files are supplied, it copies their ratings into side-by-side columns and adds
 exact-match indicators. The judge uses the same rating categories as human
 review; it does not replace human review or provide an independent gold answer.
+The answer-level JSON contains `scope_fit`, `factual_correctness`,
+`answer_completeness`, `citation_support_overall`, `citation_completeness`,
+`abstention_correctness`, and `review_notes`. Each citation is then judged in an
+isolated request containing only that citation's passage; the application binds
+the citation label and chunk ID itself, preventing the judge from swapping
+source identities across rows.
 
 ```bash
 python judge_generation.py evaluation_generation_results/dev_hybrid.csv \
   --facets benchmarks/benchmark_facets.csv \
   --human-answers evaluation_generation_results/labeled/dev_hybrid.xlsx \
   --human-citations evaluation_generation_results/labeled/dev_hybrid_citations.xlsx \
-  --judge-model qwen3:8b \
-  --output evaluation_generation_results/judge_outputs/dev_hybrid_judge.csv
+  --judge-model llama3.1:8b \
+  --output evaluation_generation_results/judge_outputs/dev_hybrid_judge_v2.csv
 ```
 
-The judge makes one Ollama request per answer row. A different judge model can
-reduce self-review bias when available. Review disagreements manually, since
-the judge can miss errors or be influenced by the same passages it is grading.
+The judge makes one Ollama request per answer, plus one per distinct cited
+source. This takes longer, but avoids asking the model to keep several citation
+rows aligned in one response. Ollama's thinking mode is disabled for these
+short JSON ratings. A different judge model can reduce self-review bias when
+available. Review disagreements manually, since the judge can miss errors or
+be influenced by the passage it is grading.
 
 ### Summarize human generation reviews
 
